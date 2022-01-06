@@ -8,7 +8,7 @@ const PostList = ({search, category}) => {
         <>
             <View>
                 {list.map((item) => {
-                    if(search && item.post_title === -1) {
+                    if(search && item.post_title.indexOf(search)==-1) {
                         return null;
                     }
 
