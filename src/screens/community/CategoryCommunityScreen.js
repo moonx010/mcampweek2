@@ -2,12 +2,17 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import PostList from '../../components/PostList';
 import TabHeader from '../../components/TabHeader';
-
-const CommunityListScreen = ({category}) => {
+import {useRoute} from '@react-navigation/native';
+import _ from 'lodash';
+const CommunityListScreen = ({navigation, category}) => {
+    const route = useRoute();
+    const categoryName = () => {
+        return(_.get(route, 'params.category', ));
+     };
     return (
         <>
-            <TabHeader title="상품리스트"/>
-            <PostList category={category}/>
+            <TabHeader title={categoryName() + " 커뮤니티"}/>
+            <PostList category={categoryName()}/>
         </>
     );
 }

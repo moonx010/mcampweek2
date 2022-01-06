@@ -2,6 +2,7 @@
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StyleSheet, View, Text} from 'react-native';
+import TransparentHeader from './TransparentHeader';
 
 export default function TabHeadr({title}) {
     const insets = useSafeAreaInsets();
@@ -11,6 +12,7 @@ export default function TabHeadr({title}) {
             paddingBottom: 20,
             paddingTop: 20 + top,
         }}>
+            <TransparentHeader />
             <Text style = {styles.title}>{title}</Text>
         </View>
     )
@@ -21,6 +23,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff', 
         alignItems: 'flex-end',
         flexDirection: 'row',
+        justifyContent: 'center',
     },
     title: {
         fontSize: 20,
