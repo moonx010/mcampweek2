@@ -11,7 +11,6 @@ export default function CommunityScreen() {
                 <Category category="주점"/>
             </View>
             
-            <Text style={styles.subHeading}>커뮤니티</Text>
             
         </ View>
     );
