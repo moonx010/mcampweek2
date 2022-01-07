@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
 import dummy from '../db/data.json';
 
-const PostListItem = (item) => {
+const PopularListItem = (item) => {
     const navigation = useNavigation();
     const onPress = useCallback(() => {
         navigation.navigate('PostDetailScreen', {
@@ -13,8 +13,7 @@ const PostListItem = (item) => {
     }, [navigation, item]);
 
     const [list, setList] = useState();
-    const id = item.user_id;
-    const userName = dummy.user.filter(user => user.id === id);
+
     // useEffect(()=>{
     //     const initList = async()=>{
     //         const initialList = await fetchSeat(item.Post_NUMBER);
@@ -30,11 +29,7 @@ const PostListItem = (item) => {
         <Pressable onPress={onPress} style={styles.itemContainer}>
             
             <View style={{ flex: 1, alignSelf: 'flex-start', marginTop: 4 }}>
-                <Text style={styles.productName}>{item.post_title}</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center', }}>
-                    <Text style={styles.productDesc}>{JSON.stringify(userName[0].name)}</Text>
-                </View>
-                
+                <Text style={styles.productName}>{item.post_category}</Text><Text style={styles.productName}>{item.post_title}</Text>
             </View>
         </Pressable>
     );
@@ -70,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PostListItem;
+export default PopularListItem;

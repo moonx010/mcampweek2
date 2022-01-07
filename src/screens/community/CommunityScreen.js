@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Category from '../../components/Category';
+import PopularList from '../../components/PopularList';
+
 export default function CommunityScreen() {
 
     return (
@@ -9,6 +11,10 @@ export default function CommunityScreen() {
                 <Category category="식당"/>
                 <Category category="카페"/>
                 <Category category="주점"/>
+            </View>
+            <View>
+                <Text style={styles.subHeading}>오늘의 인기글</Text>
+                <PopularList />
             </View>
             
             

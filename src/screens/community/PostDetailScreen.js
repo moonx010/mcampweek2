@@ -12,6 +12,7 @@ import {useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import _ from 'lodash';
 import TabHeader from '../../components/TabHeader';
+import CommentList from '../../components/CommentList';
 
 const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
@@ -29,6 +30,13 @@ const Row = ({children, title}) => {
 export default function PostDetailScreen({navigation}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
+    const categoryName = () => {
+        return(_.get(route, 'params.item.post_category', ));
+     };
+     const postId = () => {
+        return(_.get(route, 'params.item.id', ));
+     };
+
     return (
         <>
             <TabHeader title={_.get(route, 'params.item.category', '')}/>
@@ -47,6 +55,9 @@ export default function PostDetailScreen({navigation}) {
                             {_.get(route, 'params.item.post_content', '')}
                         </Text>
                         
+                    </View>
+                    <View>
+                        <CommentList category={categoryName()} post_id={postId()}/>
                     </View>
                 </View>
             </ScrollView>
