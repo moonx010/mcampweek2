@@ -3,14 +3,14 @@ import { View, StyleSheet, FlatList } from 'react-native';
 
 import MenuItem from './MenuItem';
 
-export default function MenuList(props) {
+export default function MenuList({list, setList}) {
 
     return (
         <>
             <View>
-                {list.map((review) => {
+                {list.map((item) => {
                     return (
-                        <MenuItem {...review}/>
+                        <MenuItem item={item} setList = {setList} list = {list}/>
                     );
                 })}
                 

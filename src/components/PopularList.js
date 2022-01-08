@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, Text, View } from 'react-native';
-import PopularListItem from './popularListItem';
+import PopularListItem from './PopularListItem';
 import dummy from '../db/data.json';
 
 const data = dummy.post;

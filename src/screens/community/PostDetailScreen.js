@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
     View,
     Pressable,
@@ -13,6 +13,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import _ from 'lodash';
 import TabHeader from '../../components/TabHeader';
 import CommentList from '../../components/CommentList';
+import CommentInput from '../../components/CommentInput';
 
 const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
@@ -30,6 +31,8 @@ const Row = ({children, title}) => {
 export default function PostDetailScreen({navigation}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
+    const [inputcontent, inputchange] = useState('');
+
     const categoryName = () => {
         return(_.get(route, 'params.item.post_category', ));
      };
@@ -39,19 +42,16 @@ export default function PostDetailScreen({navigation}) {
 
     return (
         <>
-            <TabHeader title={_.get(route, 'params.item.category', '')}/>
-            <ScrollView style={[styles.constainer, {
-                paddingBottom: insets.bottom,
+            <TabHeader title={_.get(route, 'params.item.post_category', '')}/>
+            <ScrollView style={[styles.constainer, { paddingBottom: insets.bottom,
             }]}>
-
-                        
                 <View style={styles.contentContainer}>
 
                     <View style={styles.storeInfo}>
-                        <Text style={{fontSize: 24, marginBottom: 8}}>
+                        <Text style={{fontSize: 16, marginBottom: 8, fontWeight:'bold'}}>
                             {_.get(route, 'params.item.post_title', '')}
                         </Text>
-                        <Text style={{fontSize: 24, marginBottom: 8}}>
+                        <Text style={{fontSize: 15, marginBottom: 8}}>
                             {_.get(route, 'params.item.post_content', '')}
                         </Text>
                         
@@ -61,6 +61,10 @@ export default function PostDetailScreen({navigation}) {
                     </View>
                 </View>
             </ScrollView>
+                <CommentInput
+                    inputContent={inputcontent}
+                    inputContentChange={inputchange}
+                />
             
         </>
     );
@@ -70,16 +74,6 @@ const styles = StyleSheet.create({
     constainer: {
         flex: 1,
         backgroundColor: '#fff'
-    },
-    image: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    mainImage: {
-        height: 200,
-        aspectRatio,
-        justifyContent: 'center',
     },
     title: {
         fontSize: 20,
@@ -114,7 +108,7 @@ const styles = StyleSheet.create({
           })
     },
     storeInfo: {
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginTop: 12,
         borderBottomWidth: 1,
         borderBottomColor: '#ABABAB',

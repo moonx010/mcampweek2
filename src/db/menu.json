@@ -1,0 +1,5 @@
+{"menu":[
+    {"name": "떡볶이", "cost": 1000, "count": 3},
+    {"name": "튀김", "cost": 1500, "count": 4},
+    {"name": "어묵", "cost": 500, "count": 6}
+    ]}

@@ -12,7 +12,7 @@ const PopularListItem = (item) => {
         });
     }, [navigation, item]);
 
-    const [list, setList] = useState();
+   // const [list, setList] = useState();
 
     // useEffect(()=>{
     //     const initList = async()=>{
@@ -29,8 +29,9 @@ const PopularListItem = (item) => {
         <Pressable onPress={onPress} style={styles.itemContainer}>
             
             <View style={{ flex: 1, alignSelf: 'flex-start', marginTop: 4 }}>
-                <Text style={styles.productName}>{item.post_category}</Text><Text style={styles.productName}>{item.post_title}</Text>
+                <Text style={styles.productDesc}>{item.post_category} {item.post_title}</Text>
             </View>
+            
         </Pressable>
     );
 };

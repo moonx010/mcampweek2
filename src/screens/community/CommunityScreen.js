@@ -16,8 +16,6 @@ export default function CommunityScreen() {
                 <Text style={styles.subHeading}>오늘의 인기글</Text>
                 <PopularList />
             </View>
-            
-            
         </ View>
     );
 };
