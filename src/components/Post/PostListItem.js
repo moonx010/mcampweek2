@@ -32,7 +32,7 @@ const PostListItem = (item) => {
     //     // }
     return (
         <Pressable onPress={onPress}>   
-            <View style={styles.container_2}>
+            <View style={styles.container}>
                 <Text style={styles.contentTitle}>{item.post_title}</Text>
                 <Text style={styles.content}>{item.post_content}</Text>
                 <Text style={styles.userName}>{userName[0].name}</Text>
@@ -44,55 +44,24 @@ const PostListItem = (item) => {
 const styles = StyleSheet.create({
     contentTitle: {
         fontSize: 15,
-        marginBottom: 4,
         fontWeight: 'bold',
-        marginLeft: 4
     },
     content:{
         fontSize: 14,
-        marginLeft: 4
+
     },
     userName: {
         fontSize: 14,
         marginTop: 4,
-        marginLeft: 4
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ABABAB',
-        marginRight:10
-    },
-    productImage: {
-        height: 120,
-        width: 160,
-        borderRadius: 10,
-        marginRight: 10
-    },
-    productName: {
-        fontSize: 22,
-        marginBottom: 4,
-    },
-    productDesc: {
-        fontWeight: '100',
-        fontSize: 16,
-        marginTop: 4
-    },
-    productPrice: {
-        fontSize: 20,
-        textAlign: 'right',
-        marginTop: 10,
+
     },
 
-    
-    container_2: {
+    container: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        marginTop: 6,
-        marginBottom: 6,
+        marginTop: 3,
+        marginBottom: 3,
         marginHorizontal: 12,
         paddingVertical: 12,
         paddingHorizontal: 14,

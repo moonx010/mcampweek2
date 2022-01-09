@@ -19,7 +19,7 @@ const SearchScreen = ({navigation, category}) => {
                 <TransparentHeader/>
                 <Text style={{fontWeight:'bold', fontSize:20, alignItems:'center',}}>검색</Text>
             </View>
-            <Input
+            <Input style={{alignItems:'flex_starts'}}
                 inputValue={searchText}
                 inputChange={(text) => {
                     setSearchText(text);

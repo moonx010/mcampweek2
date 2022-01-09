@@ -9,7 +9,7 @@ export default function ProfileItem({user_id}) {
     const username = dummy.user.filter(user=>user.id === user_id);
     return (
         <View style={styles.row}>
-            <Image source={require('C:\Users\LGPC\kaist\week2_day6\mcampweek2\src\images\CategoryFoodImage.jpg')} style={styles.imageContainer} resizeMode={"cover"}/>
+            <Image source={require('C:\Users\LGPC\kaist\week2_day6\mcampweek2\src\images\profile.png')} style={styles.imageContainer} resizeMode={"cover"}/>
             <Text style = {styles.title}>{username[0].name}</Text>
         </View>
     )

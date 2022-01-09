@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         marginTop: 2,
-        //marginBottom: 2,
+        marginBottom: 1,
         marginHorizontal: 0,
         paddingVertical: 12,
         paddingHorizontal: 14,

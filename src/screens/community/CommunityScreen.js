@@ -36,8 +36,6 @@ const styles = StyleSheet.create({
     },
     subHeading: {
         fontSize: 16,
-        fontWeight: '100',
-        padding: 0,
         marginLeft: 10,
         fontWeight: 'bold',
     },
@@ -68,7 +66,6 @@ const styles = StyleSheet.create({
             marginHorizontal: 12,
             paddingVertical: 12,
             paddingHorizontal: 14,
-            height: 320,
             elevation: 4,
             shadowOffset: {
               width: 0,
