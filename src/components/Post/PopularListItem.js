@@ -2,6 +2,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
+import UpdateTime from '../UpdateTime';
+
+
 
 const PopularListItem = (item) => {
     const navigation = useNavigation();
@@ -10,6 +13,10 @@ const PopularListItem = (item) => {
             item,
         });
     }, [navigation, item]);
+
+    //const timeText = UpdateTime(item.created_at);
+
+    
 
    // const [list, setList] = useState();
 
@@ -27,8 +34,8 @@ const PopularListItem = (item) => {
     return (
         <Pressable onPress={onPress} style={styles.itemContainer}>
             <View style={{ flex: 1, alignSelf: 'flex-start', marginTop: 4, flexDirection:'row' }}>
-                <Text style={[{color: '#CC3D3D', fontWeight:'bold'}, styles.category]}>{item.post_category}</Text>
-                <Text style={styles.productDesc}>{item.post_title}</Text>
+                <Text style={[{color: '#CC3D3D', fontWeight:'bold'}, styles.category]}>{item.category}</Text>
+                <Text style={styles.productDesc}>{item.title}</Text>
             </View>
         </Pressable>
     );
@@ -43,8 +50,8 @@ const styles = StyleSheet.create({
     category: {
         fontFamily:'GodoM',
         fontWeight: '100',
-        fontSize: 16,
-        marginTop: 5,
+        fontSize: 12,
+        marginTop: 9,
         marginRight:10
     },
     productName: {
@@ -52,7 +59,6 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     productDesc: {
-
         fontWeight: '100',
         fontSize: 16,
         marginTop: 4

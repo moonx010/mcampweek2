@@ -83,6 +83,7 @@ export const fetchPost = async (postId) => {
       });
       let json = await response.json();
       return json;
+      
     } catch (error) {
       console.error(error);
     }

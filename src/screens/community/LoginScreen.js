@@ -12,11 +12,7 @@ export default function CommunityScreen() {
     return (
         <ScrollView>
         <View style={styles.container}>
-            <View style={styles.category}>
-                <Category category="식당"/>
-                <Category category="카페"/>
-                <Category category="주점"/>
-            </View>
+            
             <View style={styles.container_2}>
                 <Text style={styles.subHeading}>실시간 피드</Text>
                 <PopularList/>

@@ -18,7 +18,7 @@ const Category = ({category}) => {
                 </ImageBackground>
         ],
         Cafe: [
-            <ImageBackground source={require('../images/CategoryFoodImage.jpg')} style={styles.imageContainer} blurRadius={2} resizeMode={"cover"}>
+            <ImageBackground source={require('../images/cafe.jpg')} style={styles.imageContainer} blurRadius={2} resizeMode={"cover"}>
                 <Text style={styles.categoryName}>{category}</Text>
             </ImageBackground>
         ],

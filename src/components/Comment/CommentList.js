@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, Text, View } from 'react-native';
 import CommentListItem from './CommentListItem';
 import dummy from '../../db/data.json';
+import { fetchCommentListFromPost, fetchUser } from '../../api';
 /*
 const data = dummy.comment;
 
@@ -24,7 +25,24 @@ const CommentList = ({category, post_id, user_id}) => {
 }*/
 
 const data = dummy.comment;
+
+
 const CommentList = ({category, post_id}) => {
+    const [commetList, setCommentList] = useState([]);
+
+    const getCommentList = async() => {
+        try{
+            const json = await fetchCommentListFromPost();
+            setCommentList(json);
+        }catch(error){
+            console.error(error);
+        }
+    };
+
+    useEffect(()=>{
+        getCommentList();
+    }, []);
+
     return(
         <View>
             {data.map((comment)=> {

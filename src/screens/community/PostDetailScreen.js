@@ -7,6 +7,7 @@ import {
     ScrollView,
     Platform,
     Text,
+    Button,
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -14,6 +15,9 @@ import _ from 'lodash';
 import TabHeader from '../../components/TabHeader';
 import CommentList from '../../components/Comment/CommentList';
 import CommentInput from '../../components/Comment/CommentInput';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { addComment } from '../../api';
+import { fetchUser } from '../../api';
 
 //const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
@@ -21,10 +25,12 @@ const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
 export default function PostDetailScreen({navigator}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
-    const [inputcontent, inputchange] = useState('');
+    const [Comment, setComment] = useState('');
+
+    const login_id = 1; //로그인 id 정보 받아오기
 
     const categoryName = () => {
-        return(_.get(route, 'params.item.post_category', ));
+        return(_.get(route, 'params.item.category', ));
      };
      const postId = () => {
         return(_.get(route, 'params.item.id', ));
@@ -32,20 +38,25 @@ export default function PostDetailScreen({navigator}) {
      const userId = () => {
         return(_.get(route, 'params.item.user_id', ));
      };
+/* return( <View style={{flex:1, marginRight: 10}}>
+                    <Pressable onPress={()=>{addComment(11, postId(), Comment)}}>
+                        <Ionicons name="send" size={20} color="#ABABAB" style={styles.icon} />
+                    </Pressable>
+                </View>) */
+
 
     return (
         <>
-            <TabHeader title={_.get(route, 'params.item.post_category', '')}/>
+            <TabHeader title={_.get(route, 'params.item.category', '')}/>
             <ScrollView style={[{ paddingBottom: insets.bottom,}]}>
-                <View style={styles.contentContainer}>
-                    
+                <View style={styles.contentContainer}>  
                     <View style={styles.postContainer}>
                         
                         <Text style={styles.title}>
-                            {_.get(route, 'params.item.post_title', '')}
+                            {_.get(route, 'params.item.title', '')}
                         </Text>
                         <Text style={styles.content}>
-                            {_.get(route, 'params.item.post_content', '')}
+                            {_.get(route, 'params.item.content', '')}
                         </Text>
                         
                     </View>
@@ -54,16 +65,25 @@ export default function PostDetailScreen({navigator}) {
                     </View>
                 </View>
             </ScrollView>
-                <CommentInput
-                    inputContent={inputcontent}
-                    inputContentChange={inputchange}
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <CommentInput 
+                    inputContent={Comment}
+                    inputContentChange={(comment)=>{
+                        setComment(comment);
+                    }}
                 />
-            
+                <View style={{flex:1, marginRight: 10, alignItems:'center',}}>     
+                <Pressable onPress={()=>{addComment(11, postId(), Comment)}}>
+                    <Ionicons name="send" size={25} color="#ABABAB" />
+                </Pressable>
+                </View>
+            </View>    
         </>
     );
 };
 
 const styles = StyleSheet.create({
+    
     postContainer: {
         display: 'flex',
         flexDirection: 'column',

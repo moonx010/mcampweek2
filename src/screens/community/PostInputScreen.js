@@ -11,7 +11,7 @@ export default function PostInputScreen({category}) {
     const route = useRoute();
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
-/*
+
     return (
         <>
             <TabHeader title={"글쓰기"}/>
@@ -26,12 +26,12 @@ export default function PostInputScreen({category}) {
                 }}
             />
             <Button
-                 onPress={()=>{addPost(11, Title, Content, category)}}
+                 onPress={()=>{addPost(11, Title, Content, "식당")}}
                  title={"submit"}
                  color={'red'}
                 />
         </>
-    );*/
+    );/*
     return (
         <>
             <TabHeader title={"글쓰기"}/>
@@ -46,6 +46,6 @@ export default function PostInputScreen({category}) {
                 }}
             />
         </>
-    );
+    );*/
 }
 //export default AddBoardScreen;

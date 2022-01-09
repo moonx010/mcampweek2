@@ -1,23 +1,55 @@
 
 import { useNavigation } from '@react-navigation/native';
+import { TestScheduler } from 'jest';
 import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
-
-import dummy from '../../db/data.json';
-
-
+import { fetchUser } from '../../api';
+import UpdateTime from '../UpdateTime';
+/*
+fetchPost(2).then(function(post){
+    console.log("post: ", post);
+});*/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 const PostListItem = (item) => {
     const navigation = useNavigation();
-   
+    
     const onPress = useCallback(() => {
         navigation.navigate('PostDetailScreen', {
             item, 
         });
     }, [navigation, item]);
 
-    const [list, setList] = useState();
-    //const id = item.user_id;
-    const userName = dummy.user.filter(user => user.id === item.user_id);
+    const [user, setUser] = useState([]);
+    const userId = item.user_id;
+
+    const getUser = async (userId)  => {
+        try{
+            const json = await fetchUser(userId);
+            setUser(json);
+
+        }catch(error){
+            console.error(error);
+        }
+    };
+    
+    useEffect(()=>{ 
+        getUser(userId);
+    }, []);
+
+
+/*
+    useEffect(()=>{
+        const initList = async()=>{
+            //const postInfo = await fetchPost(item.id);
+            const userInfo = await fetchUser(11);
+            //setPost(postInfo);
+            setUser(userInfo);
+        };
+        initList();
+        console.log(fetchPost(2));
+    })
+
+       // const [list, setList] = useState();
 
     // useEffect(()=>{
     //     const initList = async()=>{
@@ -30,12 +62,13 @@ const PostListItem = (item) => {
     //     // {
     //     //     if(list[i].SEAT_USING === false)
     //     // }
+*/
     return (
         <Pressable onPress={onPress}>   
             <View style={styles.container}>
-                <Text style={styles.contentTitle}>{item.post_title}</Text>
-                <Text style={styles.content}>{item.post_content}</Text>
-                <Text style={styles.userName}>{userName[0].name}</Text>
+                <Text style={styles.contentTitle}>{item.title}</Text>
+                <Text style={styles.content}>{item.content}</Text>
+                <Text style={styles.userName}>{user.name}</Text>
             </View>
         </Pressable>
     );
@@ -48,14 +81,11 @@ const styles = StyleSheet.create({
     },
     content:{
         fontSize: 14,
-
     },
     userName: {
         fontSize: 14,
         marginTop: 4,
-
     },
-
     container: {
         display: 'flex',
         flexDirection: 'column',
@@ -75,7 +105,6 @@ const styles = StyleSheet.create({
         shadowRadius: 18.95,
         zIndex: 1,
         backgroundColor: "#FFFFFF",
-        //backgroundColor: '#476d98',
         borderRadius: 12,
         borderColor: '#F6F6F6',
         borderWidth: 3,
