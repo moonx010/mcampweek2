@@ -38,12 +38,13 @@ const styles = StyleSheet.create({
     itemContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 5,
+        padding: 1,
     },
     category: {
+        fontFamily:'GodoM',
         fontWeight: '100',
         fontSize: 16,
-        marginTop: 4,
+        marginTop: 5,
         marginRight:10
     },
     productName: {
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     productDesc: {
+
         fontWeight: '100',
         fontSize: 16,
         marginTop: 4

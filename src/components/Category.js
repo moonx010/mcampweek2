@@ -43,6 +43,7 @@ const Category = ({category}) => {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 12,
+        fontFamily:'GodoB'
         
     },
     imageContainer: {
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
     },
     categoryName: {
         fontSize: 24,
-        color: '#fff'
+        color: '#fff',
+        fontFamily:'GodoM',
     }
 })
 export default Category;

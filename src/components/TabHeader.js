@@ -30,6 +30,7 @@ export default function TabHeader({title, category}) {
 
 const styles = StyleSheet.create({
     container: {
+        fontFamily:'GodoM',
         backgroundColor: '#fff', 
         alignItems: 'center',
         flexDirection: 'row',
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     title: {
+        fontFamily:'GodoM',
         fontSize: 20,
         color: '#000000',
         fontWeight: 'bold',
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
         marginRight: 8
     },
     title: {
+        fontFamily:'GodoM',
         fontSize: 20,
         marginRight: 8,
     },    

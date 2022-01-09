@@ -57,14 +57,17 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     productName: {
+        
         fontSize: 15,
         marginBottom: 4,
     },
     productDesc: {
+        
         fontWeight: '100',
         fontSize: 16,
         marginTop: 4,
         fontWeight:'bold'
+        
     },
     productPrice: {
         fontSize: 20,

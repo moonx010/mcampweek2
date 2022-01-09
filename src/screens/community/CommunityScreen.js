@@ -33,11 +33,13 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         flex: 1,
+       
     },
     subHeading: {
-        fontSize: 16,
-        marginLeft: 10,
-        fontWeight: 'bold',
+        fontFamily:'GodoB',
+        fontSize: 18,
+        marginBottom: 5,
+        color: 'black'
     },
     categoryName: {
         fontSize: 30,
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
         container_2: {
+            fontFamily:'GodoB',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
