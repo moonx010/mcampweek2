@@ -12,23 +12,14 @@ import {useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import _ from 'lodash';
 import TabHeader from '../../components/TabHeader';
-import CommentList from '../../components/CommentList';
-import CommentInput from '../../components/CommentInput';
+import CommentList from '../../components/Comment/CommentList';
+import CommentInput from '../../components/Comment/CommentInput';
+import dummy from '../../db/data.json';
 
 const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
-const Row = ({children, title}) => {
-    return (
-        <View style={styles.row}>
-            <View style={styles.article}>
-                <Text style={styles.title}>{title}</Text>
-            </View>
-            {children}
-        </View>
-    );
-};
 
-export default function PostDetailScreen({navigation}) {
+export default function PostDetailScreen({navigator}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
     const [inputcontent, inputchange] = useState('');
@@ -39,6 +30,9 @@ export default function PostDetailScreen({navigation}) {
      const postId = () => {
         return(_.get(route, 'params.item.id', ));
      };
+     const userId = () => {
+        return(_.get(route, 'params.item.user_id', ));
+     };
 
     return (
         <>
@@ -46,12 +40,12 @@ export default function PostDetailScreen({navigation}) {
             <ScrollView style={[styles.constainer, { paddingBottom: insets.bottom,
             }]}>
                 <View style={styles.contentContainer}>
-
                     <View style={styles.storeInfo}>
-                        <Text style={{fontSize: 16, marginBottom: 8, fontWeight:'bold'}}>
+
+                        <Text style={styles.title}>
                             {_.get(route, 'params.item.post_title', '')}
                         </Text>
-                        <Text style={{fontSize: 15, marginBottom: 8}}>
+                        <Text style={styles.content}>
                             {_.get(route, 'params.item.post_content', '')}
                         </Text>
                         
@@ -78,18 +72,23 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         marginBottom: 10,
+        marginLeft: 20,
+        marginBottom : 8,
+        fontWeight:'bold',
     },
-    article: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#ABABAB',
-        marginBottom: 10
+    content: {
+        fontSize: 18,
+        marginBottom: 20,
+        marginLeft: 10,
+        marginBottom : 8,
     },
+
     row: {
         marginBottom: 20,
     },
     contentContainer: {
-        paddingRight: 20,
-        paddingLeft: 20,
+        //paddingRight: 20,
+        //paddingLeft: 20,
         backgroundColor: '#fff',
         borderRadius: 16,
         ...Platform.select({

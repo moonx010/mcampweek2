@@ -5,10 +5,10 @@
         {"id":3,"post_title":"헬로", "post_content":"만나서반가워요", "post_category":"식당", "user_id":1},
         {"id":4, "post_title":"안녕","post_content":"하세요", "post_category":"식당", "user_id":1},
         {"id":5,"post_title":"열었습니다.", "post_content":"카페열었습니다.", "post_category":"카페", "user_id":1},
-        {"id":6, "post_title":"안녕","post_content":"하세요", "post_category":"식당", "user_id":1},
-        {"id":7, "post_title":"안녕", "post_content":"하세요", "post_category":"식당", "user_id":1},
-        {"id":8, "post_title":"안녕", "post_content":"하세요", "post_category":"식당", "user_id":1},
-        {"id":9, "post_title":"안녕", "post_content":"하세요", "post_category":"식당", "user_id":1}
+        {"id":6, "post_title":"안녕6","post_content":"하세요", "post_category":"식당", "user_id":1},
+        {"id":7, "post_title":"안녕7", "post_content":"하세요", "post_category":"식당", "user_id":1},
+        {"id":8, "post_title":"안녕8", "post_content":"하세요", "post_category":"식당", "user_id":1},
+        {"id":9, "post_title":"안녕9", "post_content":"하세요", "post_category":"식당", "user_id":1}
     ],
     "comment" : [
         {"id":1, "category": "식당", "user_id": 1, "post_id": 1, "comment_content": "맛있어요" },

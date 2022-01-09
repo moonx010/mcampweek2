@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, Text, View } from 'react-native';
 import CommentListItem from './CommentListItem';
-import dummy from '../db/data.json';
+import dummy from '../../db/data.json';
 /*
 const data = dummy.comment;
 

@@ -30,7 +30,7 @@ const Add = ({category}) => {
                     }}
                     containerStyle={{
                         width: 80,
-                        marginHorizontal:160,
+                        marginHorizontal:'center',
                         marginVertical: 10,
                     }}
               />

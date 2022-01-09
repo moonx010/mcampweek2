@@ -22,11 +22,6 @@ export default function TransparentHeader() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        zIndex: 1,
-        left: 0,
-        alignItems: 'flex-start',
-    },
     closeButton: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -39,7 +34,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',  
         justifyContent: 'space-between',
         margin: 12,
-        width: '50%',
-        
     },
 })

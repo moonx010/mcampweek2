@@ -3,6 +3,7 @@ import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StyleSheet, View, Text} from 'react-native';
 import TransparentHeader from './TransparentHeader';
+import Search from './Search';
 
 const Row = ({children, title}) => {
     return (
@@ -14,16 +15,15 @@ const Row = ({children, title}) => {
     );
 };
 
-export default function TabHeadr({title}) {
+export default function TabHeader({title, category}) {
     const insets = useSafeAreaInsets();
     const {top} = insets;
 
     return (
         <View style={styles.container}>
-            
                 <TransparentHeader style={styles.backIcon}/> 
                 <Text style = {styles.title}>{title}</Text>
-            
+                <Search style={styles.searchIcon} category={category}/>
         </View>
     )
 }
@@ -33,16 +33,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff', 
         alignItems: 'center',
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
     },
     backIcon:{
-        alignItem:'flex-start',
+        alignItem:'center',
         justifyContent: 'flex-start',
+    },
+    searchIcon:{
+        alignItem:'center',
+        justifyContent: 'flex-end',
     },
     title: {
         fontSize: 20,
         color: '#000000',
         fontWeight: 'bold',
+        alignItem:'center',
         justifyContent: 'center'
     },
     column: {

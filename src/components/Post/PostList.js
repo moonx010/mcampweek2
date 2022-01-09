@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, FlatList, Text, View } from 'react-native';
 import PostListItem from './PostListItem';
-import dummy from '../db/data.json';
+import dummy from '../../db/data.json';
 import { ScrollView } from 'react-native-gesture-handler';
-import Add from '../components/Add';
 
 const data = dummy.post;
 

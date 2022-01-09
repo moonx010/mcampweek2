@@ -1,18 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
-import dummy from '../db/data.json';
+import dummy from '../../db/data.json';
 
 const CommentListItem = (comment) =>{
     
     const userName = dummy.user.filter(user => user.id === comment.user_id);
 
     return(               
-        <View style={{ flex: 1, alignSelf: 'flex-start', marginTop: 4 }}>
+        <View style={{ flex: 1, alignSelf: 'flex-start', marginTop: 4 }, styles.container}>
+            <Text style={styles.productDesc}>{userName[0].name}</Text>
             <Text style={styles.productName}>{comment.comment_content}</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center', }}>
-                <Text style={styles.productDesc}>{JSON.stringify(userName[0].name)}</Text>
-            </View>
         </View>
 
     );
@@ -26,6 +24,32 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ABABAB',
     },
+
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        marginTop: 2,
+        //marginBottom: 2,
+        marginHorizontal: 0,
+        paddingVertical: 12,
+        paddingHorizontal: 14,
+        height: 70,
+        elevation: 1,
+        /*shadowOffset: {
+          width: 0,
+          height: 0,
+        },*/
+        //shadowOpacity: 1,
+        //shadowRadius: 18.95,
+        //zIndex: 1,
+        backgroundColor: "#FFFFFF",
+        //backgroundColor: '#476d98',
+        //borderRadius: 12,
+        borderColor: '#F6F6F6',
+        borderWidth: 1,
+    },
+
     productImage: {
         height: 120,
         width: 160,
@@ -33,13 +57,14 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     productName: {
-        fontSize: 22,
+        fontSize: 15,
         marginBottom: 4,
     },
     productDesc: {
         fontWeight: '100',
         fontSize: 16,
-        marginTop: 4
+        marginTop: 4,
+        fontWeight:'bold'
     },
     productPrice: {
         fontSize: 20,

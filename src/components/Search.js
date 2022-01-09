@@ -7,16 +7,20 @@ import {useRoute} from '@react-navigation/native';
 import _ from 'lodash';
 
 
-export default function Search() {
+const Search = ({category}) => { 
     const insets = useSafeAreaInsets();
-    const[show, setShow] = useState();
-    
-    return (
+    const navigation = useNavigation();
 
-        <Pressable style={styles.addbutton} onPress={onPress('PostInputScreen')}>
+    const onPress = useCallback(() => {
+        navigation.navigate('SearchScreen',{category} );
+        }, [navigation, category]);
+
+    return (
+        <View style={styles.row}>
+        <Pressable style={styles.addbutton} onPress={onPress}>
             <Ionicons name="search" size={32} color="red" />
         </Pressable>
-        
+        </View>
     )
 }
 
@@ -39,7 +43,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',  
         justifyContent: 'space-between',
         margin: 12,
-        width: '50%',
-        
     },
 })
+export default Search;
