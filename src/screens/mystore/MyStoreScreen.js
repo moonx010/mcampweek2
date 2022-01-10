@@ -1,25 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, {useState, useEffect, useCallback} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import MenuList from '../../components/MenuList';
 var RNFS = require('react-native-fs');
+import {fetchUser, fetchPost, fetchMenuList, fetchMenuItems} from '../../libs/api';
 import numeral from 'numeral';
 export default function MyStoreScreen() {
     const filePath = RNFS.DocumentDirectoryPath + '/menuList.json';
-    const readFile = async () => {
-        await RNFS.readFile(filePath, 'utf8')
-          .then((res) => {
-            console.log(res)
-            const d = JSON.parse(res);
-            return d.menu;
-          })
-          .catch((err) => {
-            console.log(err.message, err.code);
-          });
-      };
-    const [list, setList] = useState([{"name": "떡볶이", "cost": 1000, "count": 3, "id": 1}, {"name": "순대", "cost": 1500, "count": 2, "id": 2}, {"name": "오뎅", "cost": 500, "count": 5, "id": 3}, {"name": "튀김", "cost": 2000, "count": 1, "id": 4}]);
-    const [sum, setSum] = useState(0);
-    // RNFS.writeFile(filePath, '{"menu": [{"name": "떡볶이", "cost": 1000, "count": 3, "id": 1}, {"name": "순대", "cost": 1500, "count": 2, "id": 2}, {"name": "오뎅", "cost": 500, "count": 5, "id": 3}, {"name": "튀김", "cost": 2000, "count": 1, "id": 4}]}', 'utf8')
+    
 
+    const [sum, setSum] = useState();
+    const [menuListId, setMenuListId] = useState();
     const calculateSales = (list) => {
         var temp = 0;
         list.map((item) => {
@@ -27,20 +18,30 @@ export default function MyStoreScreen() {
         })
         setSum(temp);
     }
-    useEffect (() => {
-        async() => {
-            if(!await RNFS.exists(filePath)) {
-            await RNFS.writeFile(filePath, '{"menu": [{"name": "떡볶이", "cost": 1000, "count": 3, "id": 1}, {"name": "순대", "cost": 1500, "count": 2, "id": 2}, {"name": "오뎅", "cost": 500, "count": 5, "id": 3}, {"name": "튀김", "cost": 2000, "count": 1, "id": 4}]}', 'utf8')
-            }
+    const [reload, setReload] = useState(false);
+    const navigation = useNavigation();
+    const addMenu = useCallback(() => {
+        navigation.navigate('MenuAddScreen', {menuListId, setReload, reload})
+    }, [navigation, menuListId])
+
+    const [menuList, setMenuList] = useState([]);
+    useEffect(() => {
+        async function init() {
+            console.log(menuList);
+            const data = await fetchMenuList(11);
+                console.log('data: '+ data[0].id);
+                setMenuListId(data[0].id);
+                const menuListData = await fetchMenuItems(data[0].id);
+                console.log("fetched form the server: " + menuListData);
+                setMenuList(menuListData);
+            console.log("sum: " + sum);
+            calculateSales(menuListData);
         }
-        console.log(list)
-        calculateSales(list);
-    }, [list])
-
-    
-    
-
-    
+        init();
+    }, [reload]);
+    // RNFS.exists(filePath).then((exist) => {
+    //     if(exist){ console.log('Yay! File exists') }
+    //     else { console.log('File not exists') } })
     
     
     return (
@@ -52,10 +53,10 @@ export default function MyStoreScreen() {
             </View>
             <View style={styles.menuTitleContainer}>
                 <Text style={styles.menuTitle}>메뉴</Text>
-                <Button style={styles.menuEditButton} title={"편집"}></Button>
+                <Button style={styles.menuEditButton} title={"추가"} onPress={addMenu}></Button>
             </View>
             
-            <MenuList list={list} setList = {setList}/>
+            <MenuList menuList={menuList} setMenuList = {setMenuList} setReload={setReload} reload={reload}/>
             
         </ View>
     );
