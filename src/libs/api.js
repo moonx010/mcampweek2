@@ -314,7 +314,7 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
-  export default login() = async() => {
+  export const login = async() => {
     try {
         let response = await fetch(`${baseUrl}/auth/kakao`, {
         method: 'GET',
