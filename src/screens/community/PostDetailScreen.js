@@ -38,6 +38,9 @@ export default function PostDetailScreen({navigation}) {
      const userId = () => {
         return(_.get(route, 'params.item.user_id', ));
      };
+     const getItem = () => {
+        return(_.get(route, 'params.item', ));
+     };
 /* return( <View style={{flex:1, marginRight: 10}}>
                     <Pressable onPress={()=>{addComment(11, postId(), Comment)}}>
                         <Ionicons name="send" size={20} color="#ABABAB" style={styles.icon} />
@@ -47,9 +50,9 @@ export default function PostDetailScreen({navigation}) {
 
     const onPress = useCallback(async() => {
         await addComment(11, postId(), Comment);
-        navigation.navigate('CategoryCommunityScreen', {
-        category});
-        }, [navigation, category, Comment]);
+        navigation.navigate('PostDetailScreen', {
+            getItem});
+        }, [navigation, getItem, Comment]);
             
 
     return (
@@ -80,7 +83,7 @@ export default function PostDetailScreen({navigation}) {
                     }}
                 />
                 <View style={{flex:1, marginRight: 10, alignItems:'center',}}>     
-                <Pressable onPress={onPress}>
+                <Pressable onPress={()=>{addComment(11, postId(), Comment);}}>
                     <Ionicons name="send" size={25} color="#ABABAB" />
                 </Pressable>
                 </View>

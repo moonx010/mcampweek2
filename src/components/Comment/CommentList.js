@@ -47,9 +47,6 @@ const CommentList = ({category, post_id}) => {
     return(
         <View>
             {commentList.map((comment)=> {
-                if( (category && comment.category != category) || (post_id && comment.post_id != post_id)){
-                    return null;
-                }
                 return (
                     <CommentListItem {...comment}/>
                 );

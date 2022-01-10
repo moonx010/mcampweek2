@@ -6,7 +6,6 @@ import { fetchUser } from '../../api';
 
 const CommentListItem = (comment) =>{
     
-    //const userName = dummy.user.filter(user => user.id === comment.user_id);
     const [user, setUser] = useState({});
     const userId = comment.user_id;
 
