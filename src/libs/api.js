@@ -1,3 +1,5 @@
+import { defineAnimation } from "react-native-reanimated";
+
 const baseUrl = 'http://192.249.18.90';
 
 const headers = {
@@ -257,7 +259,7 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
-  export const addMenuItem = async (cost, name, menuListId) => {
+  export const addMenuItem = async (cost, name, price, menuListId) => {
     try {
       let response = await fetch(`${baseUrl}/menu_item`, {
         method: 'POST',
@@ -267,6 +269,7 @@ export const fetchPost = async (postId) => {
         body: JSON.stringify({
           "cost": cost,
           "name": name,
+          "price": price,
           "menu_list_id": menuListId,
         }),
       });
@@ -276,7 +279,7 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
-  export const editMenuItem = async (menuItemId, cost, name) => {
+  export const editMenuItem = async (menuItemId, cost, name, count, price) => {
     try {
       let response = await fetch(`${baseUrl}/menu_item/${menuItemId}/`, {
         method: 'PUT',
@@ -286,6 +289,8 @@ export const fetchPost = async (postId) => {
         body: JSON.stringify({
           "cost": cost,
           "name": name,
+          "count": count,
+          "price": price
         }),
       });
       let json = await response.json();
@@ -309,3 +314,17 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
+  export default login() = async() => {
+    try {
+        let response = await fetch(`${baseUrl}/auth/kakao`, {
+        method: 'GET',
+        headers: {
+          ...headers,
+        },
+      });
+      let json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  }
