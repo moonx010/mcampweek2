@@ -2,15 +2,31 @@ import { useNavigation } from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
 import dummy from '../../db/data.json';
+import { fetchUser } from '../../api';
 
 const CommentListItem = (comment) =>{
     
-    const userName = dummy.user.filter(user => user.id === comment.user_id);
+    //const userName = dummy.user.filter(user => user.id === comment.user_id);
+    const [user, setUser] = useState({});
+    const userId = comment.user_id;
+
+    const getUser = async (userId)  => {
+        try{
+            const json = await fetchUser(userId);
+            setUser(json[0]);
+        }catch(error){
+            console.error(error);
+        }
+    };
+    
+    useEffect(()=>{ 
+        getUser(userId);
+    }, []);
 
     return(               
         <View style={{ flex: 1, alignSelf: 'flex-start', marginTop: 4 }, styles.container}>
-            <Text style={styles.productDesc}>{userName[0].name}</Text>
-            <Text style={styles.productName}>{comment.comment_content}</Text>
+            <Text style={styles.productDesc}>{user.name}</Text>
+            <Text style={styles.productName}>{comment.content}</Text>
         </View>
 
     );

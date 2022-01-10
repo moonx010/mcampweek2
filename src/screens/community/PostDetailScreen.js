@@ -22,7 +22,7 @@ import { fetchUser } from '../../api';
 //const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
 
-export default function PostDetailScreen({navigator}) {
+export default function PostDetailScreen({navigation}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
     const [Comment, setComment] = useState('');
@@ -43,7 +43,14 @@ export default function PostDetailScreen({navigator}) {
                         <Ionicons name="send" size={20} color="#ABABAB" style={styles.icon} />
                     </Pressable>
                 </View>) */
+    const category = categoryName();
 
+    const onPress = useCallback(async() => {
+        await addComment(11, postId(), Comment);
+        navigation.navigate('CategoryCommunityScreen', {
+        category});
+        }, [navigation, category, Comment]);
+            
 
     return (
         <>
@@ -73,7 +80,7 @@ export default function PostDetailScreen({navigator}) {
                     }}
                 />
                 <View style={{flex:1, marginRight: 10, alignItems:'center',}}>     
-                <Pressable onPress={()=>{addComment(11, postId(), Comment)}}>
+                <Pressable onPress={onPress}>
                     <Ionicons name="send" size={25} color="#ABABAB" />
                 </Pressable>
                 </View>

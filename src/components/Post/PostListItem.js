@@ -5,27 +5,23 @@ import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
 import { fetchUser } from '../../api';
 import UpdateTime from '../UpdateTime';
-/*
-fetchPost(2).then(function(post){
-    console.log("post: ", post);
-});*/
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 const PostListItem = (item) => {
     const navigation = useNavigation();
-    
+    const [user, setUser] = useState({});
+    const userId = item.user_id;
+
     const onPress = useCallback(() => {
         navigation.navigate('PostDetailScreen', {
             item, 
         });
     }, [navigation, item]);
 
-    const [user, setUser] = useState([]);
-    const userId = item.user_id;
-
     const getUser = async (userId)  => {
         try{
             const json = await fetchUser(userId);
-            setUser(json);
+
+            setUser(json[0]);
 
         }catch(error){
             console.error(error);
@@ -35,8 +31,6 @@ const PostListItem = (item) => {
     useEffect(()=>{ 
         getUser(userId);
     }, []);
-
-
 /*
     useEffect(()=>{
         const initList = async()=>{
@@ -66,9 +60,13 @@ const PostListItem = (item) => {
     return (
         <Pressable onPress={onPress}>   
             <View style={styles.container}>
-                <Text style={styles.contentTitle}>{item.title}</Text>
-                <Text style={styles.content}>{item.content}</Text>
+                <View style={{flex:3}}>
+                    <Text style={styles.contentTitle}>{item.title}</Text>
+                    <Text style={styles.content}>{item.content}</Text>
+                </View>
+                <View style={{flex:1}}>
                 <Text style={styles.userName}>{user.name}</Text>
+                </View>
             </View>
         </Pressable>
     );
@@ -83,8 +81,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     userName: {
-        fontSize: 14,
-        marginTop: 4,
+        fontSize: 11,
+        marginTop: 2,
     },
     container: {
         display: 'flex',
@@ -112,64 +110,7 @@ const styles = StyleSheet.create({
     countContailner:{
         margin:20,
     },
-    middleContainer:{
-        marginTop:20,
-        marginLeft:10,
-        marginRight:10,
-        height:60,
-        flexDirection: 'row',
-      },
-    middleButtonAll: {
-        width:100,
-        height:50,
-        padding:15,
-        backgroundColor:"#20b2aa",
-        borderColor:"deeppink",
-        borderRadius:15,
-        margin:7
-      },
-    middleButton01: {
-        width:100,
-        height:50,
-        padding:15,
-        backgroundColor:"#fdc453",
-        borderColor:"deeppink",
-        borderRadius:15,
-        margin:7
-      },
-    middleButton02: {
-        width:100,
-        height:50,
-        padding:15,
-        backgroundColor:"#fe8d6f",
-        borderRadius:15,
-        margin:7
-      },
-    middleButton03: {
-        width:100,
-        height:50,
-        padding:15,
-        backgroundColor:"#9adbc5",
-        borderRadius:15,
-        margin:7
-      },
-    middleButtonText: {
-        color:"#fff",
-        fontWeight:"700",
-        //텍스트의 현재 위치에서의 정렬 
-        textAlign:"center"
-      },
-    middleButtonTextAll: {
-        color:"#fff",
-        fontWeight:"700",
-        //텍스트의 현재 위치에서의 정렬 
-        textAlign:"center"
-      },
-    admobbanner:{
-        //marginLeft:12,
-        marginRight:12,
-        marginBottom:6
-    },
+    
     itemNameText: {
         fontSize: 20,
         color: '#f0f9ff',

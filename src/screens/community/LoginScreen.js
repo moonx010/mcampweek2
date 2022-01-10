@@ -1,50 +1,91 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Pressable, Button} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, StyleSheet, Pressable,} from 'react-native';
 import { color } from 'react-native-reanimated';
 import Category from '../../components/Category';
-import PopularList from '../../components/PopularList';
-
+import PopularList from '../../components/Post/PopularList';
+import {useNavigation} from '@react-navigation/native';
 import { Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Button, ButtonGroup, withTheme } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function CommunityScreen() {
+export default function LoginScreen() {
+
+    const navigation = useNavigation();
+/*
+    <Pressable onPress={signIn} style={styles.button}>
+    <Text>카카오 로그인</Text>
+</Pressable>
+<Pressable onPress={signUp}>
+
+</Pressable>
+
+*/
+   
+    const logIn = useCallback(() => {
+        navigation.navigate('PostInputScreen');
+    }, [navigation]);
+
+
 
     return (
-        <ScrollView>
+
         <View style={styles.container}>
+            <View style={styles.container}>
+                <Text style={styles.title}>장사의 신</Text>
+            </ View>
             
-            <View style={styles.container_2}>
-                <Text style={styles.subHeading}>실시간 피드</Text>
-                <PopularList/>
-            </View>
-            <View style={styles.container_2}>
-                <Text style={styles.subHeading}>주요일정</Text>
-                
-            </View>
-            <View style={styles.container_2}>
-                <Text style={styles.subHeading}>플레이스</Text>
-            </View>
-            <View style={styles.container_2}>
-                <Text style={styles.subHeading}>Q & A</Text>
-            </View>
-        </ View>
-        </ScrollView>
+
+            <Pressable style={styles.container1} onPress={logIn}>
+                <Ionicons name="chatbubble" style={{ marginRight: 10, color:'black'}}/>
+                <Text style={{fontWeight:'600', color:'black', fontSize: 16}}>카카오 로그인</Text>
+            </Pressable>
+        </View>    
+
     );
 };
 
-/*<Button
+/*          <Button
                  onPress={()=>{Linking.openURL('http://192.249.18.90/auth/kakao');}}
                  title={"login"}
                 />*/
 
 const styles = StyleSheet.create({
+    container1:{
+        flexDirection:'row',
+        backgroundColor: '#FAE100',
+        borderColor: 'transparent',
+        borderWidth: 0,
+        borderRadius: 10,
+        alignItems:'center',
+        justifyContent:'center',
+        height: 40
+    },
+    button:{
+        backgroundColor:'#FAE100',
+        marginLeft: 16,
+        marginRight: 16 
+
+    },
+    backGround:{
+        backgroundColor: '#2f2d38'
+    },
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2f2d38',
         flex: 1,
-       
+        padding :30,
+    },
+    title:{
+        fontFamily:'Shilla_Culture(B)',
+        alignItems:'center',
+        justifyContent:'center',
+        fontSize: 60,
+        textAlign: 'center',
+        color:'#fff'
     },
     subHeading: {
-        fontFamily:'GodoB',
+        fontFamily:'Shilla_Culture(B)',
         fontSize: 18,
         marginBottom: 5,
         color: 'black'

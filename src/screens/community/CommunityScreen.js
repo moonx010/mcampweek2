@@ -2,12 +2,26 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Pressable, Button} from 'react-native';
 import { color } from 'react-native-reanimated';
 import Category from '../../components/Category';
-import PopularList from '../../components/PopularList';
+import PopularList from '../../components/Post/PopularList';
 
 import { Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { fetchPostList } from '../../api';
+
 export default function CommunityScreen() {
+
+    const [postList, setPostList] = useState([]);
+    
+    useEffect(()=>{
+        async function init() {
+            const json = await fetchPostList();
+            setPostList(json);
+            console.log("커뮤니티 postList : " + postList)
+        }
+        init();
+    }, []);
+
 
     return (
         <ScrollView>
@@ -19,10 +33,10 @@ export default function CommunityScreen() {
             </View>
             <View style={styles.container_2}>
                 <Text style={styles.subHeading}>실시간 피드</Text>
-                <PopularList/>
+                <PopularList list={postList}/> 
             </View>
             <View style={styles.container_2}>
-                <Text style={styles.subHeading}>주요일정</Text>
+                <Text style={styles.subHeading}>공지사항</Text>
                 
             </View>
             <View style={styles.container_2}>

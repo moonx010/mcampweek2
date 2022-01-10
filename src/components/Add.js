@@ -11,6 +11,7 @@ const Add = ({category}) => {
     
     const insets = useSafeAreaInsets();
     const navigation = useNavigation();
+    console.log("ADD category:  " + category);
 
     const onPress = useCallback(() => {
         navigation.navigate('PostInputScreen', {category});

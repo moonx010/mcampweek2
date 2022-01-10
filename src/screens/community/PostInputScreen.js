@@ -6,11 +6,29 @@ import PostInput from '../../components/PostInput';
 import {Button} from 'react-native';
 import { addPost } from '../../api';
 
-//const AddBoardScreen = ({navigation, category}) => { 
-export default function PostInputScreen({category}) {  
+const PostInputScreen = ({navigation}) => { 
+//export default function PostInputScreen({category}) {  
     const route = useRoute();
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
+
+    const categoryName = () => {
+        return(_.get(route, 'params.category', ));
+     };
+
+    const category = categoryName(); 
+    /*
+    const onPress = useCallback(() => { // addPost 성공하면 돌아가기 구현하기
+        if(addPost){
+        navigation.navigate('CategoryCommunityScreen', {category});}
+    }, [navigation, category]);*/
+
+    const onPress = useCallback(async() => {
+        await addPost(11, Title, Content, categoryName());
+        navigation.navigate('CategoryCommunityScreen', {
+            category});
+    }, [navigation, category, Title, Content]);
+
 
     return (
         <>
@@ -26,7 +44,7 @@ export default function PostInputScreen({category}) {
                 }}
             />
             <Button
-                 onPress={()=>{addPost(11, Title, Content, "식당")}}
+                 onPress={onPress}
                  title={"submit"}
                  color={'red'}
                 />
@@ -49,3 +67,4 @@ export default function PostInputScreen({category}) {
     );*/
 }
 //export default AddBoardScreen;
+export default PostInputScreen;

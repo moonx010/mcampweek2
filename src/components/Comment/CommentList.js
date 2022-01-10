@@ -28,24 +28,25 @@ const data = dummy.comment;
 
 
 const CommentList = ({category, post_id}) => {
-    const [commetList, setCommentList] = useState([]);
+    const [commentList, setCommentList] = useState([]);
 
-    const getCommentList = async() => {
+    const getCommentList = async(post_id) => {
         try{
-            const json = await fetchCommentListFromPost();
+            const json = await fetchCommentListFromPost(post_id);
             setCommentList(json);
+            console.log(commentList[0].user_id);
         }catch(error){
             console.error(error);
         }
     };
 
     useEffect(()=>{
-        getCommentList();
+        getCommentList(post_id);
     }, []);
 
     return(
         <View>
-            {data.map((comment)=> {
+            {commentList.map((comment)=> {
                 if( (category && comment.category != category) || (post_id && comment.post_id != post_id)){
                     return null;
                 }

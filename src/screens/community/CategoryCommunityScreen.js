@@ -20,8 +20,8 @@ const CommunityListScreen = ({navigation, category}) => {
     return (
         <>
             <TabHeader title = {categoryName() + " 커뮤니티"}/>
-            <PostList category = {categoryName(), searchText}/>
-            <Add category={category}></Add>
+            <PostList search={searchText} category = {categoryName()}/>
+            <Add category={categoryName()}></Add>
             
         </>
     );
