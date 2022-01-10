@@ -35,7 +35,7 @@ export default function MyStoreScreen() {
                 console.log("fetched form the server: " + menuListData);
                 setMenuList(menuListData);
             console.log("sum: " + sum);
-            calculateSales(menuList);
+            calculateSales(menuListData);
         }
         init();
     }, [reload]);

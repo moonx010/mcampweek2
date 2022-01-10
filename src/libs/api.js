@@ -123,7 +123,6 @@ export const fetchPost = async (postId) => {
         method: 'POST',
         headers: {
           ...headers,
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           "user_id": user_id,
