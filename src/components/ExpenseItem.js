@@ -1,23 +1,20 @@
 import React, {useCallback} from 'react';
 import {View, StyleSheet, Text, Pressable, Alert} from 'react-native';
-import InputSpinner from 'react-native-input-spinner';
 import { useNavigation } from '@react-navigation/native';
-import { editMenuItem } from '../libs/api';
-var RNFS = require('react-native-fs');
+import numeral from 'numeral';
 
 
-export default MenuItem = ({item, setReload, reload}) => {
+export default ExpenseItem = ({item, setReload, reload}) => {
     const navigation = useNavigation(); 
-    var menuListId = item.id;
-    const editMenu = useCallback(() => {
-        Alert.alert('알림', '이 메뉴를 수정하시겠습니까?', [
+    const editExpense = useCallback(() => {
+        Alert.alert('알림', '이 관리비를 수정하시겠습니까?', [
             {
                 text: '취소',
             },
             {
               text: '확인',
               onPress: async () => {
-                navigation.navigate('MenuEditScreen', {item, setReload, reload})
+                navigation.navigate('ExpenseEditScreen', {item, setReload, reload})
               },
             },
             
@@ -26,21 +23,10 @@ export default MenuItem = ({item, setReload, reload}) => {
     }, [navigation, item, setReload])
 
     return(
-        <Pressable style={styles.menuContainer} onLongPress = {editMenu}>
+        <Pressable style={styles.menuContainer} onLongPress = {editExpense}>
             <View style = {styles.container}>
                 <Text style={styles.itemName}>{item.name}</Text>
-                <InputSpinner
-                step={1}
-                value={item.count}
-                style={styles.spinner}
-                onChange={async(num) => {
-                        await editMenuItem(item.id, item.cost, item.name, num, item.price);
-                        setReload(!reload);
-                }}
-                fontSize={16}
-                height={40}
-                width={120}
-                />
+                <Text style={styles.itemName}>{numeral(item.cost).format('0,0') +" 원"}</Text>
             </View>
         </Pressable>
         

@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 
-import MenuItem from './MenuItem';
+import ExpenseItem from './ExpenseItem';
 
-export default function MenuList({menuList, setReload, reload}) {
+export default function ExpenseList({expenseList, setReload, reload}) {
 
     return (
         <>
             <View>
-                {menuList.map((item) => {
+                {expenseList.map((item) => {
                     return (
-                        <MenuItem key={item.id} item={item} setReload = {setReload} reload={reload}/>
+                        <ExpenseItem key={item.id} item={item} setReload = {setReload} reload={reload}/>
                     );
                 })}
                 

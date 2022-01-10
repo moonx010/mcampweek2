@@ -1,14 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {View, Text, StyleSheet, Button, ScrollView} from 'react-native';
 import MenuList from '../../components/MenuList';
+import ExpenseList from '../../components/ExpenseList';
 var RNFS = require('react-native-fs');
-import {fetchUser, fetchPost, fetchMenuList, fetchMenuItems} from '../../libs/api';
+import {fetchMenuList, fetchMenuItems, fetchExpenses} from '../../libs/api';
 import numeral from 'numeral';
 export default function MyStoreScreen() {
-    const filePath = RNFS.DocumentDirectoryPath + '/menuList.json';
     
-
+    const userId = 11;
     const [sum, setSum] = useState();
     const [menuListId, setMenuListId] = useState();
     const calculateSales = (list) => {
@@ -22,30 +22,34 @@ export default function MyStoreScreen() {
     const navigation = useNavigation();
     const addMenu = useCallback(() => {
         navigation.navigate('MenuAddScreen', {menuListId, setReload, reload})
-    }, [navigation, menuListId])
+    }, [navigation, menuListId, setReload, reload])
+    const addExpense = useCallback(() => {
+        navigation.navigate('ExpenseAddScreen', {userId, setReload, reload})
+    }, [navigation, userId, setReload, reload])
 
     const [menuList, setMenuList] = useState([]);
+    const [expenseList, setExpenseList] = useState([]);
     useEffect(() => {
         async function init() {
             console.log(menuList);
-            const data = await fetchMenuList(11);
-                console.log('data: '+ data[0].id);
-                setMenuListId(data[0].id);
-                const menuListData = await fetchMenuItems(data[0].id);
-                console.log("fetched form the server: " + menuListData);
-                setMenuList(menuListData);
-            console.log("sum: " + sum);
+            const data = await fetchMenuList(userId);
+            setMenuListId(data[0].id);
+            const menuListData = await fetchMenuItems(data[0].id);
+            setMenuList(menuListData);
+
+            const expenseData = await fetchExpenses(userId);
+            console.log(expenseData)
+
+            setExpenseList(expenseData);
+            console.log("expenseList: "+expenseList[0].cost)
             calculateSales(menuListData);
         }
         init();
     }, [reload]);
-    // RNFS.exists(filePath).then((exist) => {
-    //     if(exist){ console.log('Yay! File exists') }
-    //     else { console.log('File not exists') } })
     
     
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             
             <View style={styles.sales}>
                 <Text style={styles.salesTitle}>오늘의 매출</Text>
@@ -56,9 +60,15 @@ export default function MyStoreScreen() {
                 <Button style={styles.menuEditButton} title={"추가"} onPress={addMenu}></Button>
             </View>
             
-            <MenuList menuList={menuList} setMenuList = {setMenuList} setReload={setReload} reload={reload}/>
+            <MenuList menuList={menuList} setReload={setReload} reload={reload}/>
+            <View style={styles.menuTitleContainer}>
+                <Text style={styles.menuTitle}>관리비</Text>
+                <Button style={styles.menuEditButton} title={"추가"} onPress={addExpense}></Button>
+            </View>
             
-        </ View>
+            <ExpenseList expenseList = {expenseList} setReload={setReload} reload={reload}/>
+            
+        </ ScrollView>
     );
 };
 
