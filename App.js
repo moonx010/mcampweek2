@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaProvider, useSafeAreaProvider} from 'react-native-safe-area-context';
 import screens from './src/screens';
 import MainTab from './src/components/MainTab';
-
+import {login } from '@react-native-seoul/kakao-login'
 const {
   MyStoreScreen,
   CommunityScreen,
