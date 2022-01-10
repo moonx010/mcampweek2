@@ -19,6 +19,9 @@ export default function MenuEditScreen({navigation}) {
     const deleteItem = useCallback(async() => {
         Alert.alert('알림', '이 메뉴를 삭제하시겠습니까?', [
             {
+                text: '취소',
+            },
+            {
               text: '확인',
               onPress: async () => {
                 await deleteMenuItem(_.get(route, 'params.item.id', ''));
@@ -34,9 +37,7 @@ export default function MenuEditScreen({navigation}) {
                 ]);
               },
             },
-            {
-              text: '취소',
-            },
+            
           ]);
         
     }, [])
