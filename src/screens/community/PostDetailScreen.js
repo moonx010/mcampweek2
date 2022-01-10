@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
     View,
     Pressable,
@@ -7,103 +7,124 @@ import {
     ScrollView,
     Platform,
     Text,
+    Button,
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import _ from 'lodash';
 import TabHeader from '../../components/TabHeader';
+import CommentList from '../../components/Comment/CommentList';
+import CommentInput from '../../components/Comment/CommentInput';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { addComment } from '../../api';
+import { fetchUser } from '../../api';
 
-const aspectRatio = 640 / 480;
+//const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
-const Row = ({children, title}) => {
-    return (
-        <View style={styles.row}>
-            <View style={styles.article}>
-                <Text style={styles.title}>{title}</Text>
-            </View>
-            {children}
-        </View>
-    );
-};
 
 export default function PostDetailScreen({navigation}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
+    const [Comment, setComment] = useState('');
+
+    const login_id = 1; //로그인 id 정보 받아오기
+
+    const categoryName = () => {
+        return(_.get(route, 'params.item.category', ));
+     };
+     const postId = () => {
+        return(_.get(route, 'params.item.id', ));
+     };
+     const userId = () => {
+        return(_.get(route, 'params.item.user_id', ));
+     };
+/* return( <View style={{flex:1, marginRight: 10}}>
+                    <Pressable onPress={()=>{addComment(11, postId(), Comment)}}>
+                        <Ionicons name="send" size={20} color="#ABABAB" style={styles.icon} />
+                    </Pressable>
+                </View>) */
+    const category = categoryName();
+
+    const onPress = useCallback(async() => {
+        await addComment(11, postId(), Comment);
+        navigation.navigate('CategoryCommunityScreen', {
+        category});
+        }, [navigation, category, Comment]);
+            
+
     return (
         <>
             <TabHeader title={_.get(route, 'params.item.category', '')}/>
-            <ScrollView style={[styles.constainer, {
-                paddingBottom: insets.bottom,
-            }]}>
-
+            <ScrollView style={[{ paddingBottom: insets.bottom,}]}>
+                <View style={styles.contentContainer}>  
+                    <View style={styles.postContainer}>
                         
-                <View style={styles.contentContainer}>
-
-                    <View style={styles.storeInfo}>
-                        <Text style={{fontSize: 24, marginBottom: 8}}>
-                            {_.get(route, 'params.item.post_title', '')}
+                        <Text style={styles.title}>
+                            {_.get(route, 'params.item.title', '')}
                         </Text>
-                        <Text style={{fontSize: 24, marginBottom: 8}}>
-                            {_.get(route, 'params.item.post_content', '')}
+                        <Text style={styles.content}>
+                            {_.get(route, 'params.item.content', '')}
                         </Text>
                         
                     </View>
+                    <View>
+                        <CommentList category={categoryName()} post_id={postId()}/>
+                    </View>
                 </View>
             </ScrollView>
-            
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <CommentInput 
+                    inputContent={Comment}
+                    inputContentChange={(comment)=>{
+                        setComment(comment);
+                    }}
+                />
+                <View style={{flex:1, marginRight: 10, alignItems:'center',}}>     
+                <Pressable onPress={onPress}>
+                    <Ionicons name="send" size={25} color="#ABABAB" />
+                </Pressable>
+                </View>
+            </View>    
         </>
     );
 };
 
 const styles = StyleSheet.create({
+    
+    postContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        //justifyContent: 'space-between',
+        marginTop: 2,
+        marginBottom: 2,
+        marginHorizontal: 0,
+        paddingVertical: 12,
+        paddingHorizontal: 14,
+        elevation: 1,
+        backgroundColor: "#FFFFFF",
+        borderColor: '#F6F6F6',
+        borderWidth: 1,
+    },
     constainer: {
         flex: 1,
         backgroundColor: '#fff'
     },
-    image: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    mainImage: {
-        height: 200,
-        aspectRatio,
-        justifyContent: 'center',
-    },
     title: {
         fontSize: 20,
-        marginBottom: 10,
+        fontWeight:'bold',
     },
-    article: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#ABABAB',
-        marginBottom: 10
+    content: {
+        fontSize: 18,
     },
+
     row: {
         marginBottom: 20,
     },
     contentContainer: {
-        paddingRight: 20,
-        paddingLeft: 20,
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        ...Platform.select({
-            ios: {
-              shadowColor: "rgb(50, 50, 50)",
-              shadowOpacity: 0.5,
-              shadowRadius: 1,
-              shadowOffset: {
-                height: 0,
-                width: 0,
-              },
-            },
-            android: {
-              elevation: 3,
-            },
-          })
+        backgroundColor: '#ffffff',
     },
     storeInfo: {
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginTop: 12,
         borderBottomWidth: 1,
         borderBottomColor: '#ABABAB',

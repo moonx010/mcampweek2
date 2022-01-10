@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabBar from './BottomTabBar';
 import screens from '../screens';
 
-const {CommunityScreen, MyStoreScreen, CategoryCommunityScreen} = screens;
+const {CommunityScreen, MyStoreScreen, CategoryCommunityScreen, LoginScreen} = screens;
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,8 @@ function MainTab() {
     tabBar={(props) => <BottomTabBar {...props} />}>
       <Tab.Screen name="Community" component={CommunityScreen} />
       <Tab.Screen name="MyStore" component={MyStoreScreen} />
-      <Tab.Screen name="CategoryCommunity" component={CategoryCommunityScreen} />
+      <Tab.Screen name="CategoryCommunity" component={CategoryCommunityScreen}
+       />
     </Tab.Navigator>
   );
 }

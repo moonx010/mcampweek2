@@ -18,7 +18,7 @@ const Category = ({category}) => {
                 </ImageBackground>
         ],
         Cafe: [
-            <ImageBackground source={require('../images/CategoryFoodImage.jpg')} style={styles.imageContainer} blurRadius={2} resizeMode={"cover"}>
+            <ImageBackground source={require('../images/cafe.jpg')} style={styles.imageContainer} blurRadius={2} resizeMode={"cover"}>
                 <Text style={styles.categoryName}>{category}</Text>
             </ImageBackground>
         ],
@@ -43,6 +43,7 @@ const Category = ({category}) => {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 12,
+        fontFamily:'GodoB'
         
     },
     imageContainer: {
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
     },
     categoryName: {
         fontSize: 24,
-        color: '#fff'
+        color: '#fff',
+        fontFamily:'GodoM',
     }
 })
 export default Category;

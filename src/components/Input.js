@@ -21,16 +21,16 @@ const Input = ({inputValue, inputChange}) => {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        marginLeft: 16,
-        marginRight: 16,
+        marginLeft: 12,
+        marginRight: 12,
         borderWidth: 1,
         borderRadius: 8,
         borderColor: '#ABABAB',
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        marginTop: 10,
+        justifyContent: 'center',
+        marginTop: 0,
     },
     icon: {
         marginLeft: 10,
@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
     input: {
         height: 52,
         backgroundColor: '#ffffff',
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 12,
+        paddingRight: 12,
         fontSize: 20,
-        width: 300
+        width:280,
     }
 });
 
