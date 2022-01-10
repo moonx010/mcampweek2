@@ -6,8 +6,7 @@ const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
 };
-
-export const login = async () => {
+export const login = async() => {
     try {
         let response = await fetch(`${baseUrl}/auth/kakao`, {
         method: 'GET',
@@ -20,8 +19,7 @@ export const login = async () => {
     } catch (error) {
       console.error(error);
     }
-}
-
+  }
 export const fetchUser = async (userId) => {
   try {
       let response = await fetch(`${baseUrl}/user/${userId}`, {
@@ -314,17 +312,3 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
-  export const login = async() => {
-    try {
-        let response = await fetch(`${baseUrl}/auth/kakao`, {
-        method: 'GET',
-        headers: {
-          ...headers,
-        },
-      });
-      let json = await response.json();
-      return json;
-    } catch (error) {
-      console.error(error);
-    }
-  }
