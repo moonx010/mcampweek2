@@ -1,11 +1,3 @@
-import {
-  KakaoOAuthToken,
-  KakaoProfile,
-  getProfile as getKakaoProfile,
-  login,
-  logout,
-  unlink,
-} from '@react-native-seoul/kakao-login';
 import React, {useState} from 'react';
 import {useCallback} from 'react';
 import {
@@ -14,98 +6,128 @@ import {
   TextInput,
   Pressable,
   Alert,
+  Text,
+  Button,
+  Image
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { WebView, Linking} from 'react-native-webview';
+import {setUser, getUser} from '../../libs/auth';
+import {fetchUser} from '../../libs/api';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function LoginScreen({navigation, setAppToken}) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    setToken(null);
-    const onLogin = useCallback(async () => {
-        if (!email || !password) {
-        Alert.alert('알림', '이메일과 패스워드를 입력하세요.');
-        return;
-    }
+export default function LoginScreen({navigation, setAppUser}) {
+  
+    const onPress = useCallback(() =>
+      navigation.navigate('KakaoLogin', {navigation, setAppUser})
+    ,[navigation, setAppUser]);
 
-    const {Token, Success} = await login();
-    if (Success === 'False') {
-      Alert.alert('알림', '이메일과 패스워드가 일치하지 않습니다.');
-      setPassword('');
-      return;
-    }
-    setEmail('');
-    setPassword('');
-    await setToken(Token);
-    setAppToken(Token);
-    const myInfo = await me();
-    await setUser(myInfo);
-    navigation.navigate('MainTab');
-    
-  });
-  return (
-    <View style={styles.container}>
-        <Pressable onPress={onLogin} style={styles.loginBtn}>
-            <Text style={styles.loginBtnText}>로그인</Text>
-        </Pressable>
-    </View>
-  );
+    return (
+      <>
+       <View style={styles.container}>
+            <View style={styles.container}>
+                <Text style={styles.title}></Text>
+            </ View>
+            <Image source={require('../../images/loginIcon.png')} style={styles.imageContainer} resizeMode={"cover"}></Image>
+
+            <Pressable style={styles.containerLogin} onPress={onPress}>
+                <Ionicons name="chatbubble" size={20} style={{ marginRight: 10, color:'#70BFFF'}}/>
+                <Text style={{fontWeight:'600', color:'#59B5FF', fontSize: 16, fontFamily:'GodoM'}}>카카오 로그인</Text>
+            </Pressable>
+        </View>
+     </>
+      
+    );
+  
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  imageContainer:{
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    marginBottom:150,
+    
   },
-  title: {
-    fontSize: 40,
-    color: '#00DC99',
-    position: 'absolute',
+  containerLogin:{
+      flexDirection:'row',
+      backgroundColor: '#ffffff',
+      borderColor: 'transparent',
+      borderWidth: 0,
+      borderRadius: 10,
+      alignItems:'center',
+      justifyContent:'center',
+      height: 40,
+      marginBottom:80,
+      width:'100%'
+  },
+  button:{
+      backgroundColor:'#FAE100',
+      marginLeft: 16,
+      marginRight: 16 
 
   },
-  login: {
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: '#ABABAB',
-    backgroundColor: '#fff',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    marginTop: 10,
-    width: 240,
-        
+  backGround:{
+      backgroundColor: '#2f2d38'
   },
-  textInput: {
-    height: 40,
-    backgroundColor: 'rgba(52, 52, 52, 0)',
-    alignItems: 'flex-start',
-    paddingLeft: 8,
-    paddingRight: 8,
-    fontFamily,
-    width: 240,
+  container: {
+      backgroundColor: '#D9EEFF',
+      flex: 1,
+      padding :30,
+      alignItems:'center',
+      justifyContent:'center',
   },
-  loginBtn: {
-    marginTop: 30,
-    padding: 12,
-    width: 240,
-    backgroundColor: '#00DC99',
-    alignItems: 'center',
-    borderRadius: 10,
+  title:{
+      fontFamily:'Shilla_Culture(B)',
+      alignItems:'center',
+      justifyContent:'center',
+      fontSize: 60,
+      textAlign: 'center',
+      color:'#fff'
   },
-  loginBtnText: {
-    fontSize: 20,
-    color: '#fff',
+  subHeading: {
+      fontFamily:'Shilla_Culture(B)',
+      fontSize: 18,
+      marginBottom: 5,
+      color: 'black'
   },
-  joinBtn: {
-    marginTop: 30,
-    padding: 12,
-    width: 240,
-    alignItems: 'center',
-    borderRadius: 10,
+  categoryName: {
+      fontSize: 30,
   },
-  joinBtnText: {
-    fontSize: 20,
-    color: '#ABABAB',
+  category: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 16,
+      paddingHorizontal: 14,
+      elevation: 20,
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 18.95,
+      zIndex: 1,
   },
-  
-});
+      container_2: {
+          fontFamily:'GodoB',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          marginTop: 6,
+          marginBottom: 6,
+          marginHorizontal: 12,
+          paddingVertical: 12,
+          paddingHorizontal: 14,
+          elevation: 4,
+          shadowOffset: {
+            width: 0,
+            height: 0,
+          },
+          shadowOpacity: 1,
+          shadowRadius: 18.95,
+          zIndex: 1,
+          backgroundColor: "#FFFFFF",
+          borderRadius: 12,
+          borderColor: '#F6F6F6',
+          borderWidth: 3,
+      },
+  });

@@ -13,21 +13,17 @@ export default function MenuAddScreen({navigation}) {
     const route = useRoute();
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');    // const route = useRoute();
-
-    function changeScreen( screenName ){
-        const resetAction = StackActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName : screenName })]
-        });
-        navigation.dispatch(resetAction);
-    }
+    const [price, setPrice] = useState(0);
     const setReload = _.get(route, 'params.setReload');
+    const reload = _.get(route, 'params.reload');
+    const userId = _.get(route, 'params.userId')
+    console.log(userId)
     const addComplete = useCallback(async() => {
         console.log(cost + name)
-        await addMenuItem(cost, name, _.get(route, 'params.menuListId', ''));
-        setReload(true);
+        await addMenuItem(cost, name, price, _.get(route, 'params.userId'));
+        setReload(!reload);
         navigation.navigate('MyStore');
-    }, [cost, name, route])
+    }, [cost, name, price, route])
     
     return (
         <View style={styles.containter}>
@@ -45,12 +41,22 @@ export default function MenuAddScreen({navigation}) {
                     placeholderTextColor="#ABABAB"
                     multiline={true}
                     maxLength={40}
-                    />
+                />
                 <Text>메뉴 가격</Text>
                 <TextInput
                     style={[styles.textInput, {marginTop: 12}]}
                     onChangeText={(costTemp) => setCost(costTemp)}
                     value={cost}
+                    placeholder="가격"
+                    keyboardType='numeric'
+                    placeholderTextColor="#ABABAB"
+                    maxLength={40}
+                />
+                <Text>메뉴 원가</Text>
+                <TextInput
+                    style={[styles.textInput, {marginTop: 12}]}
+                    onChangeText={(priceTemp) => setPrice(priceTemp)}
+                    value={price}
                     placeholder="가격"
                     keyboardType='numeric'
                     placeholderTextColor="#ABABAB"
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     delete: {
-        color: 'red',
+        color: '#59B5FF',
         width: 50,
     },
     itemContainter: {

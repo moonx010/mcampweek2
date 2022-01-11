@@ -71,6 +71,7 @@ const styles = StyleSheet.create ({
         fontSize: 16,
         color: '#ABABAB',
         paddingTop: 10,
+        fontFamily: 'GodoM'
     },
     tabTextSelected: {
         color: '#000000', 

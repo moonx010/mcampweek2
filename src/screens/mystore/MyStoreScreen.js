@@ -1,16 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {View, Text, StyleSheet, Button, ScrollView, Pressable} from 'react-native';
 import MenuList from '../../components/MenuList';
+import ExpenseList from '../../components/ExpenseList';
 var RNFS = require('react-native-fs');
-import {fetchUser, fetchPost, fetchMenuList, fetchMenuItems} from '../../libs/api';
+import {fetchMenuList, fetchMenuItems, fetchExpenses} from '../../libs/api';
 import numeral from 'numeral';
-export default function MyStoreScreen() {
-    const filePath = RNFS.DocumentDirectoryPath + '/menuList.json';
+import { getUser } from '../../libs/auth';
+export default function MyStoreScreen({navigation, setAppUser}) {
     
-
+    
     const [sum, setSum] = useState();
-    const [menuListId, setMenuListId] = useState();
+    const [userId, setUserId] = useState();
+    
     const calculateSales = (list) => {
         var temp = 0;
         list.map((item) => {
@@ -19,46 +21,66 @@ export default function MyStoreScreen() {
         setSum(temp);
     }
     const [reload, setReload] = useState(false);
-    const navigation = useNavigation();
-    const addMenu = useCallback(() => {
-        navigation.navigate('MenuAddScreen', {menuListId, setReload, reload})
-    }, [navigation, menuListId])
-
+    
     const [menuList, setMenuList] = useState([]);
+    const [expenseList, setExpenseList] = useState([]);
     useEffect(() => {
         async function init() {
-            console.log(menuList);
-            const data = await fetchMenuList(11);
-                console.log('data: '+ data[0].id);
-                setMenuListId(data[0].id);
-                const menuListData = await fetchMenuItems(data[0].id);
-                console.log("fetched form the server: " + menuListData);
-                setMenuList(menuListData);
-            console.log("sum: " + sum);
-            calculateSales(menuList);
+            const user = await getUser();
+            setUserId(user.id);
+            console.log("Mystore: "+user.id)
+            const menuListData = await fetchMenuItems(user.id);
+            setMenuList(menuListData);
+
+            const expenseData = await fetchExpenses(user.id);
+            console.log(expenseData)
+
+            setExpenseList(expenseData);
+            // console.log("expenseList: "+expenseList[0].cost)
+            calculateSales(menuListData);
         }
         init();
     }, [reload]);
-    // RNFS.exists(filePath).then((exist) => {
-    //     if(exist){ console.log('Yay! File exists') }
-    //     else { console.log('File not exists') } })
-    
+    const addMenu = useCallback(() => {
+        navigation.navigate('MenuAddScreen', {userId, setReload, reload})
+    }, [navigation, userId, setReload, reload])
+    const addExpense = useCallback(() => {
+        navigation.navigate('ExpenseAddScreen', {userId, setReload, reload})
+    }, [navigation, userId, setReload, reload])
+    const logout = useCallback(() => {
+        setAppUser(null);
+        
+    }, [navigation])
     
     return (
-        <View style={styles.container}>
-            
+        <ScrollView style={styles.container}>
+            <Pressable style={styles.detailSales} onPress={logout}>
+                <Text>로그아웃</Text>
+            </Pressable>
             <View style={styles.sales}>
-                <Text style={styles.salesTitle}>오늘의 매출</Text>
+            <Text style={styles.salesTitle}>오늘의 매출</Text>
+                <View style={styles.salesTitleContainer}>
                 <Text style={styles.salesSum}>{ numeral(sum).format('0,0') +" 원"}</Text>
+                    <Pressable style={styles.detailSales}>
+                        <Text>자세히</Text>
+                    </Pressable>
+                </View>
+                
             </View>
             <View style={styles.menuTitleContainer}>
                 <Text style={styles.menuTitle}>메뉴</Text>
                 <Button style={styles.menuEditButton} title={"추가"} onPress={addMenu}></Button>
             </View>
             
-            <MenuList menuList={menuList} setMenuList = {setMenuList} setReload={setReload} reload={reload}/>
+            <MenuList menuList={menuList} setReload={setReload} reload={reload}/>
+            <View style={styles.menuTitleContainer}>
+                <Text style={styles.menuTitle}>관리비</Text>
+                <Button style={styles.menuEditButton} title={"추가"} onPress={addExpense}></Button>
+            </View>
             
-        </ View>
+            <ExpenseList expenseList = {expenseList} setReload={setReload} reload={reload}/>
+            
+        </ ScrollView>
     );
 };
 
@@ -76,10 +98,19 @@ const styles = StyleSheet.create({
     },
     salesTitle: {
         fontSize: 20,
+        marginRight: 12
+    },
+    salesTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     salesSum: {
         fontSize: 36,
         fontWeight: 'bold'
+    },
+    detailSales: {
+        padding: 12,
+
     },
     menuTitle: {
         fontSize: 24,
