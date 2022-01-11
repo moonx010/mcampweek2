@@ -1,29 +1,26 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, Button, Pressable, TextInput, Alert} from 'react-native';
+import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
 var RNFS = require('react-native-fs');
-import {addMenuItem} from '../../libs/api';
+import {addExpense} from '../../libs/api';
 import numeral from 'numeral';
 import _ from 'lodash';
-import {useRoute, CommonActions, StackActions, NavigationActions} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import TransparentHeader from '../../components/TransparentHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function MenuAddScreen({navigation}) {
-    
+export default function ExpenseAddScreen({navigation}) {
     const route = useRoute();
+    const userId = _.get(route, 'params.userId');
     const [name, setName] = useState('');
-    const [cost, setCost] = useState('');    // const route = useRoute();
-    const [price, setPrice] = useState(0);
+    const [cost, setCost] = useState(''); 
     const setReload = _.get(route, 'params.setReload');
     const reload = _.get(route, 'params.reload');
-    const userId = _.get(route, 'params.userId')
-    console.log(userId)
     const addComplete = useCallback(async() => {
         console.log(cost + name)
-        await addMenuItem(cost, name, price, _.get(route, 'params.userId'));
+        await addExpense(cost, name, userId);
         setReload(!reload);
         navigation.navigate('MyStore');
-    }, [cost, name, price, route])
+    }, [cost, name, route])
     
     return (
         <View style={styles.containter}>
@@ -32,7 +29,7 @@ export default function MenuAddScreen({navigation}) {
             </View>
             
             <View style={styles.itemContainter}>
-                <Text>메뉴 이름</Text>
+                <Text>관리비 이름</Text>
                 <TextInput
                     style={[styles.textInput, {marginTop: 12}]}
                     value={name}
@@ -42,7 +39,7 @@ export default function MenuAddScreen({navigation}) {
                     multiline={true}
                     maxLength={40}
                 />
-                <Text>메뉴 가격</Text>
+                <Text>관리비 가격</Text>
                 <TextInput
                     style={[styles.textInput, {marginTop: 12}]}
                     onChangeText={(costTemp) => setCost(costTemp)}
@@ -52,16 +49,6 @@ export default function MenuAddScreen({navigation}) {
                     placeholderTextColor="#ABABAB"
                     maxLength={40}
                 />
-                <Text>메뉴 원가</Text>
-                <TextInput
-                    style={[styles.textInput, {marginTop: 12}]}
-                    onChangeText={(priceTemp) => setPrice(priceTemp)}
-                    value={price}
-                    placeholder="가격"
-                    keyboardType='numeric'
-                    placeholderTextColor="#ABABAB"
-                    maxLength={40}
-                    />
             </View>
             <View style={styles.review}>
                 <Pressable style={styles.reviewBtn} onPress={addComplete}>

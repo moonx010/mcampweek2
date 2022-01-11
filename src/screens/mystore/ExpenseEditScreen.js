@@ -1,38 +1,63 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {View, Text, StyleSheet, Button, Pressable, TextInput, Alert} from 'react-native';
 var RNFS = require('react-native-fs');
-import {addMenuItem} from '../../libs/api';
+import {deleteExpense, editExpense} from '../../libs/api';
 import numeral from 'numeral';
 import _ from 'lodash';
-import {useRoute, CommonActions, StackActions, NavigationActions} from '@react-navigation/native';
+import {CommonActions, useRoute} from '@react-navigation/native';
 import TransparentHeader from '../../components/TransparentHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function MenuAddScreen({navigation}) {
+export default function ExpenseEditScreen({navigation}) {
     
     const route = useRoute();
-    const [name, setName] = useState('');
-    const [cost, setCost] = useState('');    // const route = useRoute();
-    const [price, setPrice] = useState(0);
+    const [name, setName] = useState(_.get(route, 'params.item.name', ''));
+    const [cost, setCost] = useState(String(_.get(route, 'params.item.cost', 0)));
     const setReload = _.get(route, 'params.setReload');
     const reload = _.get(route, 'params.reload');
-    const userId = _.get(route, 'params.userId')
-    console.log(userId)
-    const addComplete = useCallback(async() => {
-        console.log(cost + name)
-        await addMenuItem(cost, name, price, _.get(route, 'params.userId'));
+    const deleteItem = useCallback(async() => {
+        Alert.alert('알림', '이 관리비 항목을 삭제하시겠습니까?', [
+            {
+                text: '취소',
+            },
+            {
+              text: '확인',
+              onPress: async () => {
+                await deleteExpense(_.get(route, 'params.item.id', ''));
+      
+                Alert.alert('알림', '해당 관리비가 삭제되었습니다', [
+                  {
+                    text: '확인',
+                    onPress: () => {
+                        setReload(!reload);
+                        navigation.navigate('MyStore');
+                    },
+                  },
+                ]);
+              },
+            },
+            
+          ]);
+        
+    }, [])
+    const editComplete = useCallback(async() => {
+        await editExpense(_.get(route, 'params.item.id', ''), cost, name);
         setReload(!reload);
         navigation.navigate('MyStore');
-    }, [cost, name, price, route])
-    
+    }, [cost, name, route])
     return (
         <View style={styles.containter}>
             <View style={styles.header}>
                 <TransparentHeader />
+                <View style={styles.delete}>
+                    <Pressable style={styles.reviewBtn} onPress={deleteItem}>
+                        <FontAwesome name="trash-o" size={24} color="red" />
+                    </Pressable>
+                </View>
             </View>
             
             <View style={styles.itemContainter}>
-                <Text>메뉴 이름</Text>
+                <Text>관리비 이름</Text>
                 <TextInput
                     style={[styles.textInput, {marginTop: 12}]}
                     value={name}
@@ -41,8 +66,8 @@ export default function MenuAddScreen({navigation}) {
                     placeholderTextColor="#ABABAB"
                     multiline={true}
                     maxLength={40}
-                />
-                <Text>메뉴 가격</Text>
+                    />
+                <Text>관리비</Text>
                 <TextInput
                     style={[styles.textInput, {marginTop: 12}]}
                     onChangeText={(costTemp) => setCost(costTemp)}
@@ -51,20 +76,10 @@ export default function MenuAddScreen({navigation}) {
                     keyboardType='numeric'
                     placeholderTextColor="#ABABAB"
                     maxLength={40}
-                />
-                <Text>메뉴 원가</Text>
-                <TextInput
-                    style={[styles.textInput, {marginTop: 12}]}
-                    onChangeText={(priceTemp) => setPrice(priceTemp)}
-                    value={price}
-                    placeholder="가격"
-                    keyboardType='numeric'
-                    placeholderTextColor="#ABABAB"
-                    maxLength={40}
                     />
             </View>
             <View style={styles.review}>
-                <Pressable style={styles.reviewBtn} onPress={addComplete}>
+                <Pressable style={styles.reviewBtn} onPress={editComplete}>
                     <Text style={styles.reviewfont}>완료</Text>
                 </Pressable>
             </View>
