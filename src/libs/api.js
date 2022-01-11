@@ -182,52 +182,7 @@ export const fetchPost = async (postId) => {
     }
   };
 
-  export const fetchMenuList = async (menuListId) => {
-    try {
-        let response = await fetch(`${baseUrl}/menu_list/${menuListId}`, {
-        method: 'GET',
-        headers: {
-          ...headers,
-        },
-      });
-      let json = await response.json();
-      return json;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  export const addMenuList = async (user_id) => {
-    try {
-      let response = await fetch(`${baseUrl}/menu_list`, {
-        method: 'POST',
-        headers: {
-          ...headers,
-        },
-        body: JSON.stringify({
-          "user_id": user_id,
-        }),
-      });
-      let json = await response.json();
-      return json;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  export const deleteMenuList = async (menuListId) => {
-    try {
-      let response = await fetch(`${baseUrl}/menu_list/${menuListId}`, {
-        method: 'DELETE',
-        headers: {
-          ...headers,
-        },
-      });
-      let json = await response.json();
-      return json;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
   export const fetchMenuItem = async (menuItemId) => {
     try {
         let response = await fetch(`${baseUrl}/menu_item/${menuItemId}`, {
@@ -242,9 +197,9 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
-  export const fetchMenuItems = async (menuListId) => {
+  export const fetchMenuItems = async (userId) => {
     try {
-        let response = await fetch(`${baseUrl}/menu_item/menu_list/${menuListId}`, {
+        let response = await fetch(`${baseUrl}/menu_item/user/${userId}`, {
         method: 'GET',
         headers: {
           ...headers,
@@ -256,7 +211,7 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
-  export const addMenuItem = async (cost, name, price, menuListId) => {
+  export const addMenuItem = async (cost, name, price, userId) => {
     try {
       let response = await fetch(`${baseUrl}/menu_item`, {
         method: 'POST',
@@ -267,7 +222,7 @@ export const fetchPost = async (postId) => {
           "cost": cost,
           "name": name,
           "price": price,
-          "menu_list_id": menuListId,
+          "user_id": userId,
         }),
       });
       let json = await response.json();

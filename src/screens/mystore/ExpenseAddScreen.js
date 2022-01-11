@@ -9,8 +9,8 @@ import TransparentHeader from '../../components/TransparentHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function ExpenseAddScreen({navigation}) {
-    const userId = 11;
     const route = useRoute();
+    const userId = _.get(route, 'params.userId');
     const [name, setName] = useState('');
     const [cost, setCost] = useState(''); 
     const setReload = _.get(route, 'params.setReload');

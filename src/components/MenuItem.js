@@ -3,12 +3,10 @@ import {View, StyleSheet, Text, Pressable, Alert} from 'react-native';
 import InputSpinner from 'react-native-input-spinner';
 import { useNavigation } from '@react-navigation/native';
 import { editMenuItem } from '../libs/api';
-var RNFS = require('react-native-fs');
 
 
 export default MenuItem = ({item, setReload, reload}) => {
     const navigation = useNavigation(); 
-    var menuListId = item.id;
     const editMenu = useCallback(() => {
         Alert.alert('알림', '이 메뉴를 수정하시겠습니까?', [
             {

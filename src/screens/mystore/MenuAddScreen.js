@@ -16,9 +16,11 @@ export default function MenuAddScreen({navigation}) {
     const [price, setPrice] = useState(0);
     const setReload = _.get(route, 'params.setReload');
     const reload = _.get(route, 'params.reload');
+    const userId = _.get(route, 'params.userId')
+    console.log(userId)
     const addComplete = useCallback(async() => {
         console.log(cost + name)
-        await addMenuItem(cost, name, price, _.get(route, 'params.menuListId', ''));
+        await addMenuItem(cost, name, price, _.get(route, 'params.userId'));
         setReload(!reload);
         navigation.navigate('MyStore');
     }, [cost, name, price, route])

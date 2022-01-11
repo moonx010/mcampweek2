@@ -9,18 +9,21 @@ import {login } from '@react-native-seoul/kakao-login'
 const {
   MyStoreScreen,
   CommunityScreen,
+  LoginScreen,
   ...restScreens
 } = screens;
 
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
-
+  const [appUser, setAppUser ] = useState(null);
+  const MainTabComp = useCallback((props) => { return (<MainTab {...props} setAppUser={setAppUser} />) },[setAppUser]);
+  const LoginComp = useCallback((props) => { return (<LoginScreen {...props} setAppUser={setAppUser} />) },[setAppUser]);
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="MainTab">
-          <Stack.Screen name="MainTab" component={MainTab} options={{headerShown: false}}/>
+        <Stack.Navigator initialRouteName={appUser ? "MainTab" : "Login"}>
+        {appUser ? <Stack.Screen name="MainTab" component={MainTabComp} options={{headerShown: false}}/> : <Stack.Screen name="Login" component={LoginComp} options={{headerShown: false}}/>}
           {Object.entries(restScreens).map(([name, component]) => (
             <Stack.Screen name={name} key={name} component={component} options={{headerShown: false}}/>
           ))}
