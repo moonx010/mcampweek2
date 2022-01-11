@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabBar from './BottomTabBar';
 import screens from '../screens';
 
-const {CommunityScreen, MyStoreScreen, CategoryCommunityScreen} = screens;
+const {CommunityScreen, MyStoreScreen, CategoryCommunityScreen, LoginScreen} = screens;
 
 const Tab = createBottomTabNavigator();
 

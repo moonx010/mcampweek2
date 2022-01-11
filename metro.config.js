@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+  assets:['./src/assets/fonts'],
   transformer: {
     getTransformOptions: async () => ({
       transform: {

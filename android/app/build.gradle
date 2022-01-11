@@ -195,6 +195,9 @@ dependencies {
     implementation project(':react-native-webview')
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation project(':react-native-fs')
+
+    //implementation project(':react-native-vector-icons') // 벡터 아이콘 
+    
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
