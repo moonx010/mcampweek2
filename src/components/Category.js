@@ -3,14 +3,14 @@ import { ImageBackground, Pressable, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 
-const Category = ({category}) => {
+const Category = ({category, reload, setReload}) => {
     const navigation = useNavigation();
 
     const onPress = useCallback(() => {
         navigation.navigate('CategoryCommunityScreen', {
-            category,
+            category, reload, setReload
         });
-    }, [navigation, category]);
+    }, [navigation, category,  reload, setReload]);
     const CategorySubject = {
         Restuarant: [
                 <ImageBackground source={require('../images/CategoryFoodImage.jpg')} style={styles.imageContainer} blurRadius={8} resizeMode={"cover"}>

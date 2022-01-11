@@ -45,13 +45,6 @@ export default function LoginScreen() {
                 <Ionicons name="chatbubble" style={{ marginRight: 10, color:'black'}}/>
                 <Text style={{fontWeight:'600', color:'black', fontSize: 16}}>카카오 로그인</Text>
             </Pressable>
-            <Button
-                 onPress={()=>{Linking.openURL('http://192.249.18.90/auth/kakao');}}
-                 title={"login"}
-                />
-              
-
-
         </View>    
 
     );

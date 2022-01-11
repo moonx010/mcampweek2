@@ -19,7 +19,7 @@ import CommentInput from '../../components/Comment/CommentInput';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { addComment } from '../../api';
 import { fetchUser, fetchPost, deletePost } from '../../libs/api';
-import {getUser} from '../../libs/auth';
+import { getUser } from '../../libs/auth';
 
 
 //const aspectRatio = 640 / 480;
@@ -31,21 +31,27 @@ export default function PostDetailScreen({navigation}) {
     const [Comment, setComment] = useState('');
     const [postUser, setPostUser] = useState({});
     const [post, setPost] = useState({});
+    const [login, setLogin] = useState({});
 
-    const login_id = 1; //로그인 id 정보 받아오기
+    const category = _.get(route, 'params.item.category');
+    const postId = _.get(route, 'params.item.id');
+    const userId = _.get(route, 'params.item.user_id');
+    const item =_.get(route, 'params.item');
+    const reload =_.get(route, 'params.reload');
+    const setReload =_.get(route, 'params.setReload');
 
-    const categoryName = () => {
-        return(_.get(route, 'params.item.category', ));
-    };
-     const postId = () => {
-        return(_.get(route, 'params.item.id', ));
-     };
-     const userId = () => {
-        return(_.get(route, 'params.item.user_id', ));
-     };
-     const getItem = () => {
-        return(_.get(route, 'params.item', ));
-     };
+// const categoryName = () => {
+//     return(_.get(route, 'params.item.category', ));
+// };
+//  const postId = () => {
+//     return(_.get(route, 'params.item.id', ));
+//  };
+//  const userId = () => {
+//     return(_.get(route, 'params.item.user_id', ));
+//  };
+//  const getItem = () => {
+//     return(_.get(route, 'params.item', ));
+//  };
 
      const getPostUser = async (user_id)  => {
          try{
@@ -64,12 +70,28 @@ export default function PostDetailScreen({navigation}) {
             console.error(error);
         }
     };
-
+    
+    const loginUser = async ()  => {
+        try{
+            const json = await getUser();
+            console.log("디테일 스크린 :::::::::::::::::"+json);
+            setLogin(json);
+        }catch(error){
+            console.error(error);
+        }
+    };
+   /* 
      useEffect(()=>{ 
-         getPostUser(userId());
-         getPost(postId());
-     }, []);
- 
+         getPostUser(userId);
+         getPost(postId);
+         loginUser();
+     }, [reload]);
+ */
+     useEffect(()=>{ 
+        getPostUser(userId);
+        getPost(postId);
+    }, [reload]);
+
      const updateTime=(time)=> {
          const now = new Date();
          const TimeDiff = Math.floor((now.getTime() - time) / 1000 / 60);
@@ -92,19 +114,19 @@ export default function PostDetailScreen({navigation}) {
  
      const date_parse = Date.parse(post.created_at);
 
-
+/*
     const onPress = useCallback(async() => {
         await addComment(15, postId(), Comment);
-        navigation.navigate('PostDetailScreen', {
-            getItem});
-        }, [navigation, getItem, Comment]);
+        //navigation.navigate('PostDetailScreen', {
+        //    getItem});
+        setReload(!reload);
+        }, [reload, setReload, getItem, Comment,]);
     
- 
-
+*/
     // 버튼 보이기 숨기기 
     function deleteButton(post){
-        const authUser = getUser();
-        if(post.user_id == 15){
+        console.log("authUser.id:::::::::::::::::"+login.id);
+        if(post.user_id == login.id){
             return (
                 <Pressable style={styles.iconStyle} onPress={deletePress}>
                     <Ionicons name="trash-outline" size={20} color="#DB1E30"/>
@@ -114,22 +136,21 @@ export default function PostDetailScreen({navigation}) {
         }
     }
 
-    const category = post.category;
     console.log(category);
 
-    //Auth user == postUser 이면 삭제하기 
     const deletePress = useCallback(async()=>{
         Alert.alert('알림', '게시글을 삭제 하시겠습니까?', [
             {
               text: '확인',
               onPress: async () => {
-                await deletePost( postId());
+                await deletePost(post.id);
                 Alert.alert('알림', '삭제가 완료되었습니다.', [
                   {
                     text: '확인',
                     onPress: () => {
+                      setReload(!reload);
                       navigation.goBack();
-                      navigation.navigate('CategoryCommunityScreen', {category});
+                      navigation.navigate('CategoryCommunityScreen', {category, reload, setReload});
                     },
                   },
                 ]);
@@ -139,7 +160,7 @@ export default function PostDetailScreen({navigation}) {
               text: '취소',
             },
           ]);
-        }, [navigation, category]);
+        }, [navigation, category, reload, setReload]);
 
     return (
         <>
@@ -163,14 +184,14 @@ export default function PostDetailScreen({navigation}) {
                             {_.get(route, 'params.item.content', '')}
                         </Text>
                     </View>
-                    <View style={styles.rowContainer,{flexDirection:'row',alignItem:'flex-start', justifyContent:'space-around'}}>
+                    <View style={styles.rowContainer,{flexDirection:'row', alignItem:'flex-start', justifyContent:'space-around'}}>
                     
                         <View>
                             {deleteButton(post)}
                         </View>
                     </View>                    
                 <View>
-                        <CommentList category={categoryName()} post_id={postId()}/>
+                        <CommentList category={category} post_id={ _.get(route, 'params.item.id')} reload={reload} setReload={setReload}/>
                     </View>
                 </View>
             </ScrollView>
@@ -182,7 +203,7 @@ export default function PostDetailScreen({navigation}) {
                     }}
                 />
                 <View style={{flex:1, marginRight: 10, alignItems:'center',}}>     
-                <Pressable onPress={()=>{addComment(15, postId(), Comment);}}>
+                <Pressable onPress={()=>{addComment(login.id, postId, Comment); setReload(!reload);}}>
                     <Ionicons name="send" size={25} color="#ABABAB" />
                 </Pressable>
                 </View>
@@ -195,7 +216,6 @@ const styles = StyleSheet.create({
     imageContainer: {
         height: 25,
         width: 25,
-        alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
         borderRadius: 12,

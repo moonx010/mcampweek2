@@ -7,15 +7,15 @@ import {useNavigation} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
 import _ from 'lodash';
 
-const Add = ({category}) => { 
+const Add = ({category, reload, setReload}) => { 
     
     const insets = useSafeAreaInsets();
     const navigation = useNavigation();
     console.log("ADD category:  " + category);
 
     const onPress = useCallback(() => {
-        navigation.navigate('PostInputScreen', {category});
-    }, [navigation, category]);
+        navigation.navigate('PostInputScreen', {navigation, category, reload, setReload});
+    }, [navigation, category, reload, setReload]);
 
     /*return (
             <View style={{justifyContent:'center', alignItems:'center'}}>
@@ -53,7 +53,7 @@ const Add = ({category}) => {
 const styles = StyleSheet.create({
     writeButton:{
         //backgroundColor: 'rgba(199, 43, 98, 1)',
-        backgroundColor: '#DB1E30',
+        backgroundColor: '#59B5FF',
         borderColor: 'transparent',
         borderWidth: 0,
         borderRadius: 30,

@@ -14,7 +14,7 @@ export default function TransparentHeader() {
     return (
         <View style={styles.row}>
             <Pressable style={styles.closeButton} onPress={() => navigation.goBack()}>
-                <Ionicons name="chevron-back-outline" size={32} color="#DB1E30" />
+                <Ionicons name="chevron-back-outline" size={32} color="#59B5FF" />
             </Pressable>
         </View>
         

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     delete: {
-        color: 'red',
+        color: '#59B5FF',
         width: 50,
     },
     itemContainter: {

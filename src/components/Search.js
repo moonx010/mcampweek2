@@ -18,7 +18,7 @@ const Search = ({category}) => {
     return (
         <View style={styles.row}>
         <Pressable style={styles.addbutton} onPress={onPress}>
-            <Ionicons name="search" size={32} color="#DB1E30" />
+            <Ionicons name="search" size={32} color="#59B5FF" />
         </Pressable>
         </View>
     )

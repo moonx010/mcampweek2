@@ -4,18 +4,18 @@ import { TestScheduler } from 'jest';
 import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
 import { fetchUser } from '../../api';
-//import {UpdateTime} from '../UpdateTime';
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-const PostListItem = (item) => {
+const PostListItem = ({item, reload, setReload}) => {
     const navigation = useNavigation();
     const [user, setUser] = useState({});
     const userId = item.user_id;
 
     const onPress = useCallback(() => {
+        setReload(!reload);
         navigation.navigate('PostDetailScreen', {
-            item, 
+            item, reload, setReload
         });
-    }, [navigation, item]);
+    }, [navigation, item, reload, setReload]);
 
     const getUser = async (userId)  => {
         try{

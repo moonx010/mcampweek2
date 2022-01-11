@@ -9,19 +9,20 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Add from '../../components/Add';
 import Search from '../../components/Search';
 
-const CommunityListScreen = ({navigation, category}) => {
+const CommunityListScreen = ({navigation}) => {
     const route = useRoute();
     const [searchText, setSearchText] = useState('');
     const[show, setShow] = useState(false);
 
-    const categoryName = () => {
-        return(_.get(route, 'params.category', ));
-     };
+    const category =_.get(route, 'params.category');
+    const reload = _.get(route, 'params.reload');
+    const setReload = _.get(route, 'params.setReload');
+
     return (
         <>
-            <TabHeader title = {categoryName() + " 커뮤니티"}/>
-            <PostList search={searchText} category = {categoryName()}/>
-            <Add category={categoryName()}></Add>
+            <TabHeader title = {category + " 커뮤니티"}/>
+            <PostList search={searchText} category = {category} reload={reload} setReload={setReload}/>
+            <Add category={category} reload={reload} setReload={setReload}></Add>
             
         </>
     );

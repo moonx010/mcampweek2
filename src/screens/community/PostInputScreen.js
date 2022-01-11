@@ -5,6 +5,7 @@ import _ from 'lodash';
 import PostInput from '../../components/PostInput';
 import {Button} from 'react-native';
 import { addPost } from '../../api';
+import { getUser } from '../../libs/auth';
 
 const PostInputScreen = ({navigation}) => { 
 //export default function PostInputScreen({category}) {  
@@ -12,11 +13,14 @@ const PostInputScreen = ({navigation}) => {
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
 
-    const categoryName = () => {
-        return(_.get(route, 'params.category', ));
-     };
+    const reload = _.get(route, 'params.reload');
+    
+    const setReload =_.get(route, 'params.setReload');
+    
+    const category=_.get(route, 'params.category');
+    
 
-    const category = categoryName(); 
+    
     /*
     const onPress = useCallback(() => { // addPost 성공하면 돌아가기 구현하기
         if(addPost){
@@ -24,10 +28,12 @@ const PostInputScreen = ({navigation}) => {
     }, [navigation, category]);*/
 
     const onPress = useCallback(async() => {
-        await addPost(15, Title, Content, categoryName());
+        const login = await getUser();
+        await addPost(login.id, Title, Content, category);
+        setReload(!reload);
         navigation.navigate('CategoryCommunityScreen', {
-            category});
-    }, [navigation, category, Title, Content]);
+            category, reload, setReload});
+    }, [navigation, category, Title, Content, reload, setReload]);
 
 
     return (
@@ -37,16 +43,18 @@ const PostInputScreen = ({navigation}) => {
                 inputTitle={Title}
                 inputChange={(title)=>{
                     setTitle(title);
+                    
                 }}
                 inputContent={Content}
                 inputContentChange={(content)=>{
                     setContent(content);
+                    
                 }}
             />
             <Button
                  onPress={onPress}
                  title={"submit"}
-                 color={'red'}
+                 color={'#59B5FF'}
                 />
         </>
     );/*

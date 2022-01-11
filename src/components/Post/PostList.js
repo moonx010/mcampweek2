@@ -5,27 +5,18 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { fetchPostList } from '../../api';
 import {useNavigation} from '@react-navigation/native';
 
-const PostList = ({search, category}) => {
+const PostList = ({search, category, reload, setReload}) => {
     const navigation = useNavigation();
     const [postList, setPostList] = useState([]);
     //추가한 함수 
     console.log("PostListCategory: "+ category)
     console.log("PostListSearch: "+ search)
 
-    const getPostList = async() => {
-        try{
-            const json = await fetchPostList();
-            setPostList(json);
-            console.log("Postlist :"+ JSON.stringify(postList[1]))
-        }catch(error){
-            console.error(error);
-        }
-    };
 
-
-    useEffect(()=>{
-        getPostList();
-    }, []);
+    useEffect(async()=>{
+        const json = await fetchPostList();
+        setPostList(json);
+    }, [reload]);
 
     postList.sort(function(a,b){
         return parseFloat(b.id)-parseFloat(a.id)
@@ -47,7 +38,7 @@ const PostList = ({search, category}) => {
                 }
                 return (
                     
-                        <PostListItem {...item}/>
+                        <PostListItem item={item} reload={reload} setReload={setReload}/>
                     
                 );
 

@@ -3,11 +3,11 @@ import { StyleSheet, FlatList, Text, View } from 'react-native';
 import PopularListItem from './PopularListItem';
 import { fetchPostList } from '../../api';
 
-export default function PopularList ({list}) {
+export default function PopularList ({list, reload, setReload}) {
     console.log("list from popular: " + list);
 
     const [sliceList, setSliceList] = useState([]);
-
+    
    /* 
     const getPostList = async() => {
         try{
@@ -29,19 +29,21 @@ export default function PopularList ({list}) {
     console.log("실시간 피드 변환 결과 : "+ sliceList);
 */
     useEffect(()=>{
-        list.sort(function(a,b){
+        async function init(){
+            list.sort(function(a,b){
             return parseFloat(b.id)-parseFloat(a.id)
-        });
-        const templist = list.slice(0, 5);
-        setSliceList(templist);
-    }, []);
+            });
+            const templist = list.slice(0, 5);
+            setSliceList(templist);
+        }
+        init();
+    }, [reload]);
         
     
     return (
         <>
             <View>
                 {sliceList.map((item) => {
-                   
                         return (
                             <PopularListItem {...item}/>
                         );}

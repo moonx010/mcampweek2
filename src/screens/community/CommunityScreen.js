@@ -12,6 +12,7 @@ import { fetchPostList } from '../../api';
 export default function CommunityScreen() {
 
     const [postList, setPostList] = useState([]);
+    const [reload, setReload] = useState(false);
     
     useEffect(()=>{
         async function init() {
@@ -20,20 +21,20 @@ export default function CommunityScreen() {
             console.log("커뮤니티 postList : " + postList)
         }
         init();
-    }, []);
+    }, [reload]);
 
 
     return (
         <ScrollView>
         <View style={styles.container}>
             <View style={styles.category}>
-                <Category category="식당"/>
-                <Category category="카페"/>
-                <Category category="주점"/>
+                <Category category="식당" reload ={reload} setReload={setReload}/>
+                <Category category="카페" reload ={reload} setReload={setReload}/>
+                <Category category="주점" reload ={reload} setReload={setReload}/>
             </View>
             <View style={styles.container_2}>
                 <Text style={styles.subHeading}>실시간 피드</Text>
-                <PopularList list={postList}/> 
+                <PopularList list={postList} reload={reload} setReload={setReload}/> 
             </View>
             <View style={styles.container_2}>
                 <Text style={styles.subHeading}>공지사항</Text>
@@ -49,11 +50,6 @@ export default function CommunityScreen() {
         </ScrollView>
     );
 };
-
-/*<Button
-                 onPress={()=>{Linking.openURL('http://192.249.18.90/auth/kakao');}}
-                 title={"login"}
-                />*/
 
 const styles = StyleSheet.create({
     container: {

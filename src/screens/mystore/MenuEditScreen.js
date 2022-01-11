@@ -52,7 +52,7 @@ export default function MenuEditScreen({navigation}) {
                 <TransparentHeader />
                 <View style={styles.delete}>
                     <Pressable style={styles.reviewBtn} onPress={deleteItem}>
-                        <FontAwesome name="trash-o" size={24} color="red" />
+                        <FontAwesome name="trash-o" size={24} color="#59B5FF" />
                     </Pressable>
                 </View>
             </View>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     delete: {
-        color: 'red',
+        color: '#59B5FF',
         width: 50,
     },
     itemContainter: {

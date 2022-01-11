@@ -3,7 +3,7 @@ import CategoryCommunityScreen from './CategoryCommunityScreen';
 import PostDetailScreen from './PostDetailScreen';
 import PostInputScreen from './PostInputScreen';
 import SearchScreen from './SearchScreen';
-import LoginScreen from './LoginScreen';
+
 
 export default {
     CommunityScreen,
@@ -11,5 +11,4 @@ export default {
     PostDetailScreen,
     PostInputScreen,
     SearchScreen,
-    LoginScreen,
 }
