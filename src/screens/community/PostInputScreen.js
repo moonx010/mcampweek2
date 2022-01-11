@@ -24,7 +24,7 @@ const PostInputScreen = ({navigation}) => {
     }, [navigation, category]);*/
 
     const onPress = useCallback(async() => {
-        await addPost(11, Title, Content, categoryName());
+        await addPost(15, Title, Content, categoryName());
         navigation.navigate('CategoryCommunityScreen', {
             category});
     }, [navigation, category, Title, Content]);

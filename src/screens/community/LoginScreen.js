@@ -1,14 +1,16 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, Pressable,} from 'react-native';
-import { color } from 'react-native-reanimated';
+import {View, Text, StyleSheet, Pressable, Button} from 'react-native';
+import { color, set } from 'react-native-reanimated';
 import Category from '../../components/Category';
 import PopularList from '../../components/Post/PopularList';
 import {useNavigation} from '@react-navigation/native';
 import { Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, ButtonGroup, withTheme } from 'react-native-elements';
+import { ButtonGroup, withTheme } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { login, fetchUser } from '../../libs/api';
+import {setUser, getUser} from '../../libs/auth';
 
 export default function LoginScreen() {
 
@@ -22,12 +24,14 @@ export default function LoginScreen() {
 </Pressable>
 
 */
-   
-    const logIn = useCallback(() => {
-        navigation.navigate('PostInputScreen');
-    }, [navigation]);
-
-
+    
+    const onPress = useCallback(async() => {
+        const temp = await login();
+        const data = fetchUser(temp.id)
+        console.log(temp.id)
+        setUser(data);
+        console.log(getUser())
+        }, []);
 
     return (
 
@@ -37,10 +41,17 @@ export default function LoginScreen() {
             </ View>
             
 
-            <Pressable style={styles.container1} onPress={logIn}>
+            <Pressable style={styles.container1} onPress={onPress}>
                 <Ionicons name="chatbubble" style={{ marginRight: 10, color:'black'}}/>
                 <Text style={{fontWeight:'600', color:'black', fontSize: 16}}>카카오 로그인</Text>
             </Pressable>
+            <Button
+                 onPress={()=>{Linking.openURL('http://192.249.18.90/auth/kakao');}}
+                 title={"login"}
+                />
+              
+
+
         </View>    
 
     );

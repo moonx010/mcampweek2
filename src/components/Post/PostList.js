@@ -3,8 +3,10 @@ import { StyleSheet, FlatList, Text, View } from 'react-native';
 import PostListItem from './PostListItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import { fetchPostList } from '../../api';
+import {useNavigation} from '@react-navigation/native';
 
 const PostList = ({search, category}) => {
+    const navigation = useNavigation();
     const [postList, setPostList] = useState([]);
     //추가한 함수 
     console.log("PostListCategory: "+ category)
@@ -28,7 +30,6 @@ const PostList = ({search, category}) => {
     postList.sort(function(a,b){
         return parseFloat(b.id)-parseFloat(a.id)
     });
-
     
 
     return (

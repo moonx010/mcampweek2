@@ -6,8 +6,7 @@ import { fetchPostList } from '../../api';
 export default function PopularList ({list}) {
     console.log("list from popular: " + list);
 
-    var t = list.length;
-    //const [tempList, setTempList] = useState([]);
+    const [sliceList, setSliceList] = useState([]);
 
    /* 
     const getPostList = async() => {
@@ -29,19 +28,24 @@ export default function PopularList ({list}) {
 
     console.log("실시간 피드 변환 결과 : "+ sliceList);
 */
+    useEffect(()=>{
+        list.sort(function(a,b){
+            return parseFloat(b.id)-parseFloat(a.id)
+        });
+        const templist = list.slice(0, 5);
+        setSliceList(templist);
+    }, []);
         
-
+    
     return (
         <>
             <View>
-                {list.map((item) => {
-                    t--;
-                    if(t < 5){
+                {sliceList.map((item) => {
+                   
                         return (
                             <PopularListItem {...item}/>
                         );}
-                    else return null;
-                })}
+                    )}
             </View>
         </>
     )

@@ -14,7 +14,7 @@ export const login = async() => {
           ...headers,
         },
       });
-      let json = await response.json();
+      let json = response;
       return json;
     } catch (error) {
       console.error(error);

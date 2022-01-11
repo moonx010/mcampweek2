@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
     View,
     Pressable,
@@ -8,6 +8,7 @@ import {
     Platform,
     Text,
     Button,
+    Alert,
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -17,7 +18,9 @@ import CommentList from '../../components/Comment/CommentList';
 import CommentInput from '../../components/Comment/CommentInput';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { addComment } from '../../api';
-import { fetchUser } from '../../api';
+import { fetchUser, fetchPost, deletePost } from '../../libs/api';
+import {getUser} from '../../libs/auth';
+
 
 //const aspectRatio = 640 / 480;
 const DEFAULT_IMAGE = require('../../images/DefaultImage.png');
@@ -26,12 +29,14 @@ export default function PostDetailScreen({navigation}) {
     const insets = useSafeAreaInsets();
     const route = useRoute();
     const [Comment, setComment] = useState('');
+    const [postUser, setPostUser] = useState({});
+    const [post, setPost] = useState({});
 
     const login_id = 1; //로그인 id 정보 받아오기
 
     const categoryName = () => {
         return(_.get(route, 'params.item.category', ));
-     };
+    };
      const postId = () => {
         return(_.get(route, 'params.item.id', ));
      };
@@ -41,19 +46,100 @@ export default function PostDetailScreen({navigation}) {
      const getItem = () => {
         return(_.get(route, 'params.item', ));
      };
-/* return( <View style={{flex:1, marginRight: 10}}>
-                    <Pressable onPress={()=>{addComment(11, postId(), Comment)}}>
-                        <Ionicons name="send" size={20} color="#ABABAB" style={styles.icon} />
-                    </Pressable>
-                </View>) */
-    const category = categoryName();
+
+     const getPostUser = async (user_id)  => {
+         try{
+             const json = await fetchUser(user_id);
+             setPostUser(json[0]);
+         }catch(error){
+             console.error(error);
+         }
+     };
+     
+     const getPost = async (post_id)  => {
+        try{
+            const json = await fetchPost(post_id);
+            setPost(json[0]);
+        }catch(error){
+            console.error(error);
+        }
+    };
+
+     useEffect(()=>{ 
+         getPostUser(userId());
+         getPost(postId());
+     }, []);
+ 
+     const updateTime=(time)=> {
+         const now = new Date();
+         const TimeDiff = Math.floor((now.getTime() - time) / 1000 / 60);
+         const TimeDiffHour = Math.floor(TimeDiff / 60);
+         const TimeDiffDay = Math.floor(TimeDiff / 60 / 24);
+     
+         if (TimeDiff < 1) {
+             return `방금 전`
+         } else if (TimeDiff < 60) {
+             return `${TimeDiff}분 전`
+         } else if (TimeDiffHour < 24) {
+             return `${TimeDiffHour}시간 전`
+         } else if (TimeDiffDay < 365) {
+             return `${TimeDiffDay}일 전`
+         }
+         return (
+             `${Math.floor(TimeDiffDay / 365)}년 전`
+         )
+     }
+ 
+     const date_parse = Date.parse(post.created_at);
+
 
     const onPress = useCallback(async() => {
-        await addComment(11, postId(), Comment);
+        await addComment(15, postId(), Comment);
         navigation.navigate('PostDetailScreen', {
             getItem});
         }, [navigation, getItem, Comment]);
-            
+    
+ 
+
+    // 버튼 보이기 숨기기 
+    function deleteButton(post){
+        const authUser = getUser();
+        if(post.user_id == 15){
+            return (
+                <Pressable style={styles.iconStyle} onPress={deletePress}>
+                    <Ionicons name="trash-outline" size={20} color="#DB1E30"/>
+                    <Text style={styles.text}>삭제하기</Text>
+                </Pressable>
+            )
+        }
+    }
+
+    const category = post.category;
+    console.log(category);
+
+    //Auth user == postUser 이면 삭제하기 
+    const deletePress = useCallback(async()=>{
+        Alert.alert('알림', '게시글을 삭제 하시겠습니까?', [
+            {
+              text: '확인',
+              onPress: async () => {
+                await deletePost( postId());
+                Alert.alert('알림', '삭제가 완료되었습니다.', [
+                  {
+                    text: '확인',
+                    onPress: () => {
+                      navigation.goBack();
+                      navigation.navigate('CategoryCommunityScreen', {category});
+                    },
+                  },
+                ]);
+              },
+            },
+            {
+              text: '취소',
+            },
+          ]);
+        }, [navigation, category]);
 
     return (
         <>
@@ -61,16 +147,29 @@ export default function PostDetailScreen({navigation}) {
             <ScrollView style={[{ paddingBottom: insets.bottom,}]}>
                 <View style={styles.contentContainer}>  
                     <View style={styles.postContainer}>
-                        
+                        <View style={{flexDirection:'row', marginBottom:10, alignItems:'center'}}>
+                        <Image source={require('../../images/profile.png')} style={styles.imageContainer} resizeMode={"cover"}/>
+                            <Text style={styles.username}>
+                                {postUser.name}
+                            </Text>
+                            <Text style={styles.time}>
+                                {updateTime(date_parse)}
+                            </Text>
+                        </View>    
                         <Text style={styles.title}>
                             {_.get(route, 'params.item.title', '')}
                         </Text>
                         <Text style={styles.content}>
                             {_.get(route, 'params.item.content', '')}
                         </Text>
-                        
                     </View>
-                    <View>
+                    <View style={styles.rowContainer,{flexDirection:'row',alignItem:'flex-start', justifyContent:'space-around'}}>
+                    
+                        <View>
+                            {deleteButton(post)}
+                        </View>
+                    </View>                    
+                <View>
                         <CommentList category={categoryName()} post_id={postId()}/>
                     </View>
                 </View>
@@ -83,7 +182,7 @@ export default function PostDetailScreen({navigation}) {
                     }}
                 />
                 <View style={{flex:1, marginRight: 10, alignItems:'center',}}>     
-                <Pressable onPress={()=>{addComment(11, postId(), Comment);}}>
+                <Pressable onPress={()=>{addComment(15, postId(), Comment);}}>
                     <Ionicons name="send" size={25} color="#ABABAB" />
                 </Pressable>
                 </View>
@@ -93,10 +192,53 @@ export default function PostDetailScreen({navigation}) {
 };
 
 const styles = StyleSheet.create({
-    
+    imageContainer: {
+        height: 25,
+        width: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        borderRadius: 12,
+        margin: 2,
+        borderRadius: 12,
+        overflow: 'hidden',  
+    },
+    username:{  
+        marginLeft:8,
+        fontSize:12
+    },
+    time:{
+        marginLeft:10,
+        fontSize: 12
+    },
+    iconStyle: {
+        margin:5,
+        flexDirection:'row', 
+        justifyContent:'center', 
+        alignItems:'center'
+    },
+    text:{
+        fontFamily:'GodoM',
+        marginLeft:5,
+        fontSize: 11
+    },
     postContainer: {
         display: 'flex',
         flexDirection: 'column',
+        //justifyContent: 'space-between',
+        marginTop: 2,
+        marginBottom: 2,
+        marginHorizontal: 0,
+        paddingVertical: 12,
+        paddingHorizontal: 14,
+        elevation: 1,
+        backgroundColor: "#FFFFFF",
+        borderColor: '#F6F6F6',
+        borderWidth: 1,
+    },
+    rowContainer: {
+        display: 'flex',
+        flexDirection: 'row',
         //justifyContent: 'space-between',
         marginTop: 2,
         marginBottom: 2,
@@ -115,9 +257,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight:'bold',
+        marginBottom:10
     },
     content: {
-        fontSize: 18,
+        fontSize: 16,
     },
 
     row: {
@@ -136,46 +279,5 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         fontSize: 14,
     },
-    waiting:{
-        flex: 0.2,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-        ...Platform.select({
-            ios: {
-              shadowColor: "rgb(50, 50, 50)",
-              shadowOpacity: 0.5,
-              shadowRadius: 1,
-              shadowOffset: {
-                height: 0,
-                width: 0,
-              },
-            },
-            android: {
-              elevation: 15,
-            },
-          })
-    },
-    waitingBtn: {
-        height: 48,
-        width: '80%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#00DC99',
-        borderRadius: 8,
-        marginTop: 20
-    },
-    reviewBtn: {
-        height: 48,
-        width: 80,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 8,
-        marginLeft: 220
-    },
-    waitingfont: {
-        fontSize: 24,
-        color: '#fff',
-    }
 
 });

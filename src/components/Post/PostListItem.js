@@ -4,7 +4,7 @@ import { TestScheduler } from 'jest';
 import React, {useCallback, useEffect, useState} from 'react';
 import { Image, StyleSheet, View, Pressable, Text } from 'react-native';
 import { fetchUser } from '../../api';
-import UpdateTime from '../UpdateTime';
+//import {UpdateTime} from '../UpdateTime';
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 const PostListItem = (item) => {
     const navigation = useNavigation();
@@ -20,43 +20,37 @@ const PostListItem = (item) => {
     const getUser = async (userId)  => {
         try{
             const json = await fetchUser(userId);
-
             setUser(json[0]);
-
         }catch(error){
             console.error(error);
         }
     };
+
+    const updateTime=(time)=> {
+        const now = new Date();
+        const TimeDiff = Math.floor((now.getTime() - time) / 1000 / 60);
+        const TimeDiffHour = Math.floor(TimeDiff / 60);
+        const TimeDiffDay = Math.floor(TimeDiff / 60 / 24);
     
+        if (TimeDiff < 1) {
+            return `방금 전`
+        } else if (TimeDiff < 60) {
+            return `${TimeDiff}분 전`
+        } else if (TimeDiffHour < 24) {
+            return `${TimeDiffHour}시간 전`
+        } else if (TimeDiffDay < 365) {
+            return `${TimeDiffDay}일 전`
+        }
+        return (
+            `${Math.floor(TimeDiffDay / 365)}년 전`
+        )
+    }
+    const date_parse = Date.parse(item.created_at);
+
     useEffect(()=>{ 
         getUser(userId);
     }, []);
-/*
-    useEffect(()=>{
-        const initList = async()=>{
-            //const postInfo = await fetchPost(item.id);
-            const userInfo = await fetchUser(11);
-            //setPost(postInfo);
-            setUser(userInfo);
-        };
-        initList();
-        console.log(fetchPost(2));
-    })
 
-       // const [list, setList] = useState();
-
-    // useEffect(()=>{
-    //     const initList = async()=>{
-    //         const initialList = await fetchSeat(item.Post_NUMBER);
-    //         setList(initialList);
-    //     };
-    //     initList();
-    //     // let i;
-    //     // for(i=0; i<6; i++)
-    //     // {
-    //     //     if(list[i].SEAT_USING === false)
-    //     // }
-*/
     return (
         <Pressable onPress={onPress}>   
             <View style={styles.container}>
@@ -64,8 +58,9 @@ const PostListItem = (item) => {
                     <Text style={styles.contentTitle}>{item.title}</Text>
                     <Text style={styles.content}>{item.content}</Text>
                 </View>
-                <View style={{flex:1}}>
-                <Text style={styles.userName}>{user.name}</Text>
+                <View style={{flex:1, flexDirection:'row'}}>
+                    <Text style={styles.userName}>{user.name}</Text>
+                    <Text style={styles.time}>{updateTime(date_parse)}</Text>
                 </View>
             </View>
         </Pressable>
@@ -83,6 +78,11 @@ const styles = StyleSheet.create({
     userName: {
         fontSize: 11,
         marginTop: 2,
+    },
+    time: {
+        fontSize: 11,
+        marginTop: 2,
+        marginLeft: 10,
     },
     container: {
         display: 'flex',
