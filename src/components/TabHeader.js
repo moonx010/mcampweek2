@@ -4,7 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StyleSheet, View, Text} from 'react-native';
 import TransparentHeader from './TransparentHeader';
 
-export default function TabHeadr({title}) {
+export default function TabHeader({title}) {
     const insets = useSafeAreaInsets();
     const {top} = insets;
     return (

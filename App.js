@@ -22,10 +22,10 @@ const App: () => React$Node = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={appUser ? "MainTab" : "Login"}>
-        {appUser ? <Stack.Screen name="MainTab" component={MainTabComp} options={{headerShown: false}}/> : <Stack.Screen name="Login" component={LoginComp} options={{headerShown: false}}/>}
+        <Stack.Navigator initialRouteName={appUser ? "MainTab" : "Login"} screenOptions={{ headerShown: false }}>
+        {appUser ? <Stack.Screen name="MainTab" component={MainTabComp}/> : <Stack.Screen name="Login" component={LoginComp} options={{headerShown: false}}/>}
           {Object.entries(restScreens).map(([name, component]) => (
-            <Stack.Screen name={name} key={name} component={component} options={{headerShown: false}}/>
+            <Stack.Screen name={name} key={name} component={component}/>
           ))}
         </Stack.Navigator>
       </NavigationContainer>

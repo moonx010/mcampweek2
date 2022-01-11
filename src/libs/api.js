@@ -347,3 +347,72 @@ export const fetchPost = async (postId) => {
       console.error(error);
     }
   };
+
+  export const fetchSales = async (userId) => {
+    try {
+        let response = await fetch(`${baseUrl}/sales/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          ...headers,
+        },
+      });
+      let json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  export const fetchSale = async (date, userId) => {
+    try {
+        let response = await fetch(`${baseUrl}/sales/date/${date}/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          ...headers,
+        },
+      });
+      let json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  export const addSale = async (date, total_sale, total_cost, expense, userId) => {
+    try {
+      let response = await fetch(`${baseUrl}/sales`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+        },
+        body: JSON.stringify({
+          "date": date,
+          "total_sale": total_sale,
+          "total_cost": total_cost,
+          "expense": expense,
+          "user_id": userId,
+        }),
+      });
+      let json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  export const editSale = async (date, total_sale, total_cost, expense, user_id) => {
+    try {
+      let response = await fetch(`${baseUrl}/sales/date/${date}/user/${user_id}`, {
+        method: 'PUT',
+        headers: {
+          ...headers,
+        },
+        body: JSON.stringify({
+            "total_sale": total_sale,
+            "total_cost": total_cost,
+            "expense": expense,
+        }),
+      });
+      let json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };

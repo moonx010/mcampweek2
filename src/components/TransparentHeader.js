@@ -10,7 +10,7 @@ export default function TransparentHeader() {
     return (
         <View style={[styles.container, {marginTop: insets.top}]}>
             <Pressable style={styles.closeButton} onPress={() => navigation.goBack()}>
-                <Ionicons name="chevron-back-outline" size={32} color="red" />
+                <Ionicons name="chevron-back-outline" size={32} color="#59B5FF" />
             </Pressable>
         </View>
     )
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     closeButton: {
-        padding: 20,
+        padding: 12,
         alignItems: 'center',
         justifyContent: 'center',
     }
