@@ -32,36 +32,44 @@ export default function MenuAddScreen({navigation}) {
             </View>
             
             <View style={styles.itemContainter}>
-                <Text>메뉴 이름</Text>
-                <TextInput
-                    style={[styles.textInput, {marginTop: 12}]}
-                    value={name}
-                    onChangeText={(nameTemp) => setName(nameTemp)}
-                    placeholder="이름"
-                    placeholderTextColor="#ABABAB"
-                    multiline={true}
-                    maxLength={40}
-                />
-                <Text>메뉴 가격</Text>
-                <TextInput
-                    style={[styles.textInput, {marginTop: 12}]}
-                    onChangeText={(costTemp) => setCost(costTemp)}
-                    value={cost}
-                    placeholder="가격"
-                    keyboardType='numeric'
-                    placeholderTextColor="#ABABAB"
-                    maxLength={40}
-                />
-                <Text>메뉴 원가</Text>
-                <TextInput
-                    style={[styles.textInput, {marginTop: 12}]}
-                    onChangeText={(priceTemp) => setPrice(priceTemp)}
-                    value={price}
-                    placeholder="가격"
-                    keyboardType='numeric'
-                    placeholderTextColor="#ABABAB"
-                    maxLength={40}
+                <View style={styles.inputContainer}>
+                    <Text style = {styles.title}>메뉴 이름</Text>
+                    <TextInput
+                        style={[styles.textInput, {marginTop: 12}]}
+                        value={name}
+                        onChangeText={(nameTemp) => setName(nameTemp)}
+                        placeholder="이름"
+                        placeholderTextColor="#ABABAB"
+                        multiline={true}
+                        maxLength={40}
                     />
+                </View>
+                <View style={styles.inputContainer}>
+                <Text style = {styles.title}>메뉴 가격</Text>
+                    <TextInput
+                        style={[styles.textInput, {marginTop: 12}]}
+                        onChangeText={(costTemp) => setCost(costTemp)}
+                        value={cost}
+                        placeholder="가격"
+                        keyboardType='numeric'
+                        placeholderTextColor="#ABABAB"
+                        maxLength={40}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Text style = {styles.title}>메뉴 원가</Text>
+                    <TextInput
+                        style={[styles.textInput, {marginTop: 12}]}
+                        onChangeText={(priceTemp) => setPrice(priceTemp)}
+                        value={price}
+                        placeholder="가격"
+                        keyboardType='numeric'
+                        placeholderTextColor="#ABABAB"
+                        maxLength={40}
+                        />
+                </View>
+                
+                
             </View>
             <View style={styles.review}>
                 <Pressable style={styles.reviewBtn} onPress={addComplete}>
@@ -75,7 +83,7 @@ export default function MenuAddScreen({navigation}) {
 const styles = StyleSheet.create({
     containter: {
         backgroundColor: '#fff',
-        flex: 1,
+        flex: 1
     },
     header: {
         justifyContent: 'space-between',
@@ -88,7 +96,8 @@ const styles = StyleSheet.create({
     itemContainter: {
         marginLeft: 16,
         marginRight: 16,
-        alignItems: 'flex-start',
+        justifyContent: "center",
+        alignItems: 'center',
         padding: 10,
         marginTop: 20,
     },
@@ -103,17 +112,23 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        marginRight: 8,
+        marginLeft: 8,
+        marginTop: 8,
+        fontWeight: 'bold'
+    },
+    inputContainer: {
+        justifyContent: 'flex-start'
     },
     textInput: {
         backgroundColor: '#fff',
         alignItems: 'flex-start',
-        paddingLeft: 8,
+        paddingLeft: 16,
         paddingRight: 8,
         width: 300,
         borderWidth: 1,
-        borderColor: '#ABABAB',
-        textAlignVertical:'top'
+        borderColor: '#59B5FF',
+        textAlignVertical:'center',
+        borderRadius: 16
       },
     review:{
         alignItems: 'center',
@@ -125,7 +140,7 @@ const styles = StyleSheet.create({
         width: '80%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00DC99',
+        backgroundColor: '#59B5FF',
         borderRadius: 8,
         marginTop: 20
     },

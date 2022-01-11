@@ -9,13 +9,13 @@ const {CommunityScreen, MyStoreScreen, CategoryCommunityScreen, LoginScreen} = s
 const Tab = createBottomTabNavigator();
 
 function MainTab({setAppUser}) {
-  const MyStoreComp = useCallback((props) => { return (<MyStoreScreen {...props} setAppUser={setAppUser} />) },[setAppUser]);
+  const MyStoreComp = useCallback((props) => { return (<MyStoreScreen {...props} setAppUser={setAppUser}/>) },[setAppUser]);
   return (
     <Tab.Navigator initialRouteName="Community" 
-    tabBar={(props) => <BottomTabBar {...props} />}>
-      <Tab.Screen name="Community" component={CommunityScreen} />
-      <Tab.Screen name="MyStore" component={MyStoreComp} />
-      <Tab.Screen name="CategoryCommunity" component={CategoryCommunityScreen} />
+    tabBar={(props) => <BottomTabBar {...props}/>}>
+      <Tab.Screen name="Community" component={CommunityScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="MyStore" component={MyStoreComp} options={{ headerShown: false }}/>
+      <Tab.Screen name="CategoryCommunity" component={CategoryCommunityScreen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   );
 }

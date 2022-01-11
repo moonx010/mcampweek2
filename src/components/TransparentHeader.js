@@ -23,6 +23,10 @@ export default function TransparentHeader() {
 
 const styles = StyleSheet.create({
     closeButton: {
+<<<<<<< HEAD
+=======
+        padding: 12,
+>>>>>>> 57b95ca (seokhoon done)
         alignItems: 'center',
         justifyContent: 'center',
     },

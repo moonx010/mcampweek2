@@ -5,6 +5,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import TransparentHeader from './TransparentHeader';
 import Search from './Search';
 
+<<<<<<< HEAD
 const Row = ({children, title}) => {
     return (
         <View style={styles.row}>
@@ -16,6 +17,9 @@ const Row = ({children, title}) => {
 };
 
 export default function TabHeader({title, category}) {
+=======
+export default function TabHeader({title}) {
+>>>>>>> 57b95ca (seokhoon done)
     const insets = useSafeAreaInsets();
     const {top} = insets;
 

@@ -69,10 +69,13 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+<<<<<<< HEAD
 		<string>GodoB.otf</string>
 		<string>GodoM.otf</string>
 		<string>Shilla_Culture(B).ttf</string>
 		<string>Shilla_Culture(M).ttf</string>
+=======
+>>>>>>> 57b95ca (seokhoon done)
 	</array>
 </dict>
 </plist>
